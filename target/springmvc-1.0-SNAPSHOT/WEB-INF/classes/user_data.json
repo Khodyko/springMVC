@@ -1,0 +1,14 @@
+{
+  "user:0":
+  { "id" : "0",
+    "name" : "sergey",
+    "email" : "sergey0@mail.ru"},
+  "user:1":
+  { "id" : "1",
+    "name" : "sergey",
+    "email" : "sergey1@mail.ru"},
+  "user:2":
+  { "id" : "2",
+    "name" : "sergey",
+    "email" : "sergey2@mail.ru"}
+}
