@@ -1,20 +1,14 @@
 package org.example.spring;
 
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.example.spring.model.Entity.EventEntity;
 import org.example.spring.model.Entity.TicketEntity;
 import org.example.spring.model.Entity.UserEntity;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.factory.config.BeanPostProcessor;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.apache.logging.log4j.Level.DEBUG;
 
 
 public class Storage implements  Serializable {
@@ -25,11 +19,11 @@ public class Storage implements  Serializable {
     private Map<String, UserEntity> userMap = new HashMap();
     private Map<String, EventEntity> eventMap = new HashMap();
     @Value("${event.file.path}")
-    String eventFilePath;
+    private String eventFilePath;
     @Value("${ticket.file.path}")
-    String ticketFilePath;
+    private String ticketFilePath;
     @Value("${user.file.path}")
-    String userFilePath;
+    private String userFilePath;
 
     public Storage() {
 

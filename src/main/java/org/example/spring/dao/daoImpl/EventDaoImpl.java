@@ -21,8 +21,8 @@ public class EventDaoImpl implements EventDao {
     private Storage storage;
     private ValidatorDao validatorDao;
 
-    public EventDaoImpl() {
 
+    public EventDaoImpl(){
     }
 
 
@@ -45,20 +45,21 @@ public class EventDaoImpl implements EventDao {
 
     @Override
     public Event getEventById(long eventId) {
+
         Map<String, EventEntity> eventEntityMap = storage.getEventMap();
-       return eventEntityMap.getOrDefault("event:"+eventId, null);
+        return eventEntityMap.getOrDefault("event:" + eventId, null);
     }
 
     @Override
     public List<Event> getEventsByTitle(String title, int pageSize, int pageNum) throws DaoException {
         List<Event> eventList = new ArrayList<>();
         Map<String, EventEntity> eventEntityMap = storage.getEventMap();
-        for (Map.Entry<String, EventEntity> entry : eventEntityMap.entrySet()) {
-            if (entry.getValue().getTitle().equals(title)) {
-                eventList.add(entry.getValue());
+        if (validatorDao.validateListForPage(pageSize, pageNum)) {
+            for (Map.Entry<String, EventEntity> entry : eventEntityMap.entrySet()) {
+                if (entry.getValue().getTitle().equals(title)) {
+                    eventList.add(entry.getValue());
+                }
             }
-        }
-        if (validatorDao.validateListForPage(eventList.size(), pageSize, pageNum)) {
             return getPagedList(eventList, pageSize, pageNum);
         }
         return null;
@@ -68,12 +69,12 @@ public class EventDaoImpl implements EventDao {
     public List<Event> getEventsForDay(Date day, int pageSize, int pageNum) throws DaoException {
         List<Event> eventList = new ArrayList<>();
         Map<String, EventEntity> eventEntityMap = storage.getEventMap();
-        for (Map.Entry<String, EventEntity> entry : eventEntityMap.entrySet()) {
-            if (entry.getValue().getDate().equals(day)) {
-                eventList.add(entry.getValue());
+        if (validatorDao.validateListForPage(pageSize, pageNum)) {
+            for (Map.Entry<String, EventEntity> entry : eventEntityMap.entrySet()) {
+                if (entry.getValue().getDate().equals(day)) {
+                    eventList.add(entry.getValue());
+                }
             }
-        }
-        if (validatorDao.validateListForPage(eventList.size(), pageSize, pageNum)) {
             return getPagedList(eventList, pageSize, pageNum);
         }
         return null;
@@ -81,7 +82,6 @@ public class EventDaoImpl implements EventDao {
 
     @Override
     public Event saveEvent(Event event) {
-
         Map<String, EventEntity> eventEntityMap = storage.getEventMap();
         long eventId = 0;
         for (Map.Entry<String, EventEntity> entry : eventEntityMap.entrySet()) {
@@ -107,7 +107,7 @@ public class EventDaoImpl implements EventDao {
     @Override
     public boolean deleteEvent(long eventId) {
         Map<String, EventEntity> eventEntityMap = storage.getEventMap();
-        System.out.println("we find: "+this.getEventById(eventId));
+        System.out.println("we find: " + this.getEventById(eventId));
         return eventEntityMap.remove("event:" + eventId, this.getEventById(eventId));
     }
 

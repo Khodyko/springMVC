@@ -39,7 +39,6 @@ public class UserDaoImpl implements UserDao {
 
     }
 
-
     @Override
     public User getUserById(long userId) {
         UserEntity user = null;
@@ -70,12 +69,12 @@ public class UserDaoImpl implements UserDao {
     public List<User> getUsersByName(String name, int pageSize, int pageNum) throws DaoException {
         List<User> userList = new ArrayList<>();
         Map<String, UserEntity> userEntityMap = storage.getUserMap();
-        for (Map.Entry<String, UserEntity> entry : userEntityMap.entrySet()) {
-            if (entry.getValue().getName().equals(name)) {
-                userList.add(entry.getValue());
+        if (validatorDao.validateListForPage(pageSize, pageNum)) {
+            for (Map.Entry<String, UserEntity> entry : userEntityMap.entrySet()) {
+                if (entry.getValue().getName().equals(name)) {
+                    userList.add(entry.getValue());
+                }
             }
-        }
-        if (validatorDao.validateListForPage(userList.size(), pageSize, pageNum)) {
             return getPagedList(userList, pageSize, pageNum);
         }
         return null;
