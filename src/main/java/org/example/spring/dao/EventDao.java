@@ -5,6 +5,7 @@ import org.example.spring.model.Event;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 public interface EventDao {
 
@@ -19,5 +20,7 @@ public interface EventDao {
     public Event updateEvent(Event event);
 
     public boolean deleteEvent(long eventId);
+
+    public Set<Long> getEventsByTitleAndDay(Event event);
 
 }

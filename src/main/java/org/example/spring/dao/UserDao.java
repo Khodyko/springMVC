@@ -4,6 +4,7 @@ import org.example.spring.dao.ExceptionDao.DaoException;
 import org.example.spring.model.User;
 
 import java.util.List;
+import java.util.Set;
 
 public interface UserDao {
     public User getUserById(long userId);
@@ -17,4 +18,6 @@ public interface UserDao {
     public User updateUser(User user);
 
     public boolean deleteUser(long userId);
+
+    public Set<Long> getUsersByNameAndEmail(User user);
 }

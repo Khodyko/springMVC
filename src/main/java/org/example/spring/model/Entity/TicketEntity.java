@@ -3,16 +3,31 @@ package org.example.spring.model.Entity;
 
 import org.example.spring.model.Ticket;
 
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+
+@XmlRootElement(name = "ticket")
+@XmlAccessorType(XmlAccessType.FIELD)
+@Entity
 public class TicketEntity implements Ticket, Serializable {
     private static final long serialVersionUID = 1L;
-
+    @Id
+    @XmlAttribute(name = "id", required = false)
     private long id;
+    @XmlAttribute(name = "eventId", required = true)
     private long eventId;
+    @XmlAttribute(name = "userId", required = true)
     private long userId;
+    @Enumerated(EnumType.STRING)
+    @XmlAttribute(name = "category", required = true)
     private Category category;
+    @XmlAttribute(name = "place", required = true)
     private int place;
 
     public TicketEntity() {

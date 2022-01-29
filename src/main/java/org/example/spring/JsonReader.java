@@ -25,7 +25,7 @@ public class JsonReader implements Serializable {
 
     public <T> Map<String, T> readFileJson(String jsonPath, final Class<T> type) {
         try {
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-dd-MM");
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-dd-MM-HH");
             ObjectMapper mapper = new ObjectMapper();
             mapper.setDateFormat(df);
             TypeFactory typeFactory = mapper.getTypeFactory();

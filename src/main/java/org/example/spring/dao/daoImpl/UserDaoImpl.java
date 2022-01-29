@@ -8,9 +8,7 @@ import org.example.spring.dao.UserDao;
 import org.example.spring.model.Entity.UserEntity;
 import org.example.spring.model.User;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.apache.logging.log4j.Level.DEBUG;
@@ -112,10 +110,25 @@ public class UserDaoImpl implements UserDao {
         return userEntityMap.remove("user:" + userId, this.getUserById(userId));
     }
 
+    //used for search ticket by event params, when user doesn't contain id
+    @Override
+    public Set<Long> getUsersByNameAndEmail(User user) {
+        Set<Long> userIdSet = new HashSet<>();
+        Map<String, UserEntity> userEntityMap = storage.getUserMap();
+        for (Map.Entry<String, UserEntity> entry : userEntityMap.entrySet()) {
+            if (entry.getValue().getName().equals(user.getName()) &&
+                    entry.getValue().getEmail().equals(user.getEmail())) {
+                userIdSet.add(entry.getValue().getId());
+            }
+        }
+        return userIdSet;
+    }
+
     private List<User> getPagedList(List<User> userList, Integer pageSize, Integer pageNum) {
         List<User> pagedList;
         return userList.stream().
-                skip(pageSize * pageNum).limit(pageNum + 1).
+                skip(pageSize * pageNum).
+                limit(pageSize * pageNum + pageSize).
                 collect(Collectors.toList());
     }
 

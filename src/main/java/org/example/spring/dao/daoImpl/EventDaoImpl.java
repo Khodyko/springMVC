@@ -8,10 +8,8 @@ import org.example.spring.dao.ExceptionDao.DaoException;
 import org.example.spring.model.Entity.EventEntity;
 import org.example.spring.model.Event;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.apache.logging.log4j.Level.DEBUG;
@@ -22,7 +20,7 @@ public class EventDaoImpl implements EventDao {
     private ValidatorDao validatorDao;
 
 
-    public EventDaoImpl(){
+    public EventDaoImpl() {
     }
 
 
@@ -67,14 +65,16 @@ public class EventDaoImpl implements EventDao {
 
     @Override
     public List<Event> getEventsForDay(Date day, int pageSize, int pageNum) throws DaoException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-dd-MM-HH");
         List<Event> eventList = new ArrayList<>();
         Map<String, EventEntity> eventEntityMap = storage.getEventMap();
         if (validatorDao.validateListForPage(pageSize, pageNum)) {
             for (Map.Entry<String, EventEntity> entry : eventEntityMap.entrySet()) {
-                if (entry.getValue().getDate().equals(day)) {
+                if (entry.getValue().getDate().compareTo(day) == 0) {
                     eventList.add(entry.getValue());
                 }
             }
+            System.out.println(getPagedList(eventList, pageSize, pageNum).size());
             return getPagedList(eventList, pageSize, pageNum);
         }
         return null;
@@ -111,9 +111,25 @@ public class EventDaoImpl implements EventDao {
         return eventEntityMap.remove("event:" + eventId, this.getEventById(eventId));
     }
 
+    //used for search ticket by event params,when event doesn't contain id
+    @Override
+    public Set<Long> getEventsByTitleAndDay(Event event) {
+        Set<Long> eventIdSet = new HashSet<>();
+        Map<String, EventEntity> eventEntityMap = storage.getEventMap();
+        for (Map.Entry<String, EventEntity> entry : eventEntityMap.entrySet()) {
+
+            if (entry.getValue().getTitle().equals(event.getTitle()) &&
+                    entry.getValue().getDate().compareTo(event.getDate()) == 0) {
+                eventIdSet.add(entry.getValue().getId());
+            }
+        }
+        return eventIdSet;
+    }
+
     private List<Event> getPagedList(List<Event> eventList, Integer pageSize, Integer pageNum) {
         return eventList.stream().
-                skip(pageSize * pageNum).limit(pageNum + 1).
+                skip(pageSize * pageNum).
+                limit(pageSize * pageNum + pageSize).
                 collect(Collectors.toList());
     }
 }

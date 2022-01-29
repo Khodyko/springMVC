@@ -10,5 +10,9 @@
   "user:2":
   { "id" : "2",
     "name" : "sergey",
-    "email" : "sergey2@mail.ru"}
+    "email" : "sergey2@mail.ru"},
+  "user:3":
+  { "id" : "3",
+    "name" : "sergey",
+    "email" : "sergey3@mail.ru"}
 }

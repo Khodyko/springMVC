@@ -6,13 +6,14 @@ import org.example.spring.model.Ticket;
 import org.example.spring.model.User;
 
 import java.util.List;
+import java.util.Set;
 
 public interface TicketDao {
     public Ticket saveBookedTicket(long userId, long eventId, int place, Ticket.Category category);
 
-    public List<Ticket> getBookedTickets(User user, int pageSize, int pageNum) throws DaoException;
+    public List<Ticket> getBookedTicketsByUser(Set<Long> userIdSet , int pageSize, int pageNum) throws DaoException;
 
-    public List<Ticket> getBookedTickets(Event event, int pageSize, int pageNum) throws DaoException;
+    public List<Ticket> getBookedTickets(Set<Long> eventIdSet, int pageSize, int pageNum) throws DaoException;
 
     public boolean cancelTicket(long ticketId);
 

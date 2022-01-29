@@ -3,18 +3,21 @@ package org.example.spring.model.Entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.example.spring.model.Event;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-
+@Entity
 public class EventEntity implements Event, Serializable {
     private static final long serialVersionUID = 1L;
-
+    @Id
     private long id;
+    //validate
     private String title;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+//Set all patterns to property
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd-HH", timezone = "Europe/Moscow")
     private Date date;
 
     public long getId() {

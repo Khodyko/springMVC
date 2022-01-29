@@ -11,6 +11,7 @@ import org.example.spring.service.serviceImpl.EventServiceImpl;
 import org.example.spring.service.serviceImpl.TicketServiceImpl;
 import org.example.spring.service.serviceImpl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Date;
 import java.util.List;
@@ -24,6 +25,8 @@ public class FacadeImpl implements BookingFacade {
     private EventServiceImpl eventServiceImpl;
     private TicketServiceImpl ticketServiceImpl;
     private UserServiceImpl userServiceImpl;
+    @Value("${ticket.preload.xml.path}")
+    private String ticketPreloadXMLPath;
 
     public FacadeImpl() {
     }
@@ -157,5 +160,15 @@ public class FacadeImpl implements BookingFacade {
     public boolean cancelTicket(long ticketId) {
 
         return ticketServiceImpl.cancelTicket(ticketId);
+    }
+
+    //add to interfaces this methods?
+    public void preloadTickets(){
+        System.out.println("facade!!!!!");
+        try {
+            ticketServiceImpl.preloadTickets(ticketPreloadXMLPath);
+        } catch (ServiceException e) {
+           //fixme
+        }
     }
 }

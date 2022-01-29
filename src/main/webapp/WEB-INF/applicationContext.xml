@@ -7,15 +7,54 @@
     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
     http://www.springframework.org/schema/context
     http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
-    <context:component-scan
-            base-package="org.example.spring" />
-    <mvc:annotation-driven />
 
-    <!-- Define Spring MVC view resolver -->
-    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/WEB-INF/jsp/" />
-        <property name="suffix" value=".jsp" />
+    <context:component-scan
+            base-package="org.example.spring"/>
+    <mvc:annotation-driven/>
+    <!--JSP-->
+    <!--    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
+    <!--        <property name="prefix" value="/WEB-INF/jsp/"/>-->
+    <!--        <property name="suffix" value=".jsp"/>-->
+    <!--        <property name="order" value="3"/>-->
+    <!--    </bean>-->
+    <!-- Thymeleaf-->
+    <bean id="templateResolver"
+          class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".html"/>
+        <property name="templateMode" value="HTML5"/>
+        <property name="cacheable" value="false"/>
+        <property name="order" value="2"/>
     </bean>
+
+    <bean id="templateEngine"
+          class="org.thymeleaf.spring4.SpringTemplateEngine">
+        <property name="templateResolver" ref="templateResolver"/>
+        <property name="enableSpringELCompiler" value="true"/>
+    </bean>
+
+    <bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
+        <property name="templateEngine" ref="templateEngine"/>
+        <!--        <property name="viewNames" value="*.html,*.xhtml" />-->
+    </bean>
+
+
+    <bean id="ticketXmlConverter" class="org.example.spring.TicketXmlConverter">
+        <property name="marshaller" ref="jaxbMarshaller"/>
+        <property name="unmarshaller" ref="jaxbMarshaller"/>
+    </bean>
+    <bean id="jaxbMarshaller"
+          class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+        <property name="packagesToScan" value="org.example.spring.model"/>
+        <property name="marshallerProperties">
+            <map>
+                <entry key="jaxb.formatted.output">
+                    <value type="boolean">true</value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
 
     <bean id="booking"
           class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
@@ -24,11 +63,13 @@
                 event.file.path=src/main/resources/event_data.json
                 ticket.file.path=src/main/resources/ticket_data.json
                 user.file.path=src/main/resources/user_data.json
+                ticket.preload.xml.path=src/main/resources/ticket_preload.xml
             </value>
         </property>
     </bean>
 
-    <bean id="validatorDao" class="org.example.spring.dao.daoImpl.ValidatorDao" ></bean>
+
+    <bean id="validatorDao" class="org.example.spring.dao.daoImpl.ValidatorDao"></bean>
     <bean id="storage" class="org.example.spring.Storage" init-method="initMethod">
         <property name="jsonReader" ref="jsonReader"/>
     </bean>
@@ -54,8 +95,21 @@
         <constructor-arg ref="userServiceImpl"/>
         <constructor-arg ref="ticketServiceImpl"/>
     </bean>
-   <bean id="eventController" class="org.example.spring.controller.EventController">
-       <constructor-arg ref="facadeImpl"/>
-   </bean>
+    <bean id="eventController" class="org.example.spring.controller.EventController">
+        <constructor-arg ref="facadeImpl"/>
+    </bean>
     <bean id="baseController" class="org.example.spring.controller.BaseController"/>
+    <bean id="ticketController" class="org.example.spring.controller.TicketController">
+        <constructor-arg ref="facadeImpl"/>
+    </bean>
+    <bean id="ticketPDFController" class="org.example.spring.controller.TicketPDFController">
+        <constructor-arg ref="facadeImpl"/>
+        <constructor-arg ref="ticketPDFExporter"/>
+    </bean>
+    <bean id="userController" class="org.example.spring.controller.UserController">
+        <constructor-arg ref="facadeImpl"/>
+    </bean>
+    <bean id="ticketPDFExporter" class="org.example.spring.TicketPDFExporter"/>
+    <bean id="ticketEntities" class="org.example.spring.model.Entity.TicketEntities"/>
+
 </beans>

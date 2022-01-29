@@ -1,1 +1,0 @@
-0:0:0:0:0:0:0:1 - - [23/Jan/2022:23:59:27 +0300] "POST /springmvc/event?title=%27asds%27&day=1991-10-10 HTTP/1.1" 200 99 http-bio-8080-exec-2 465

@@ -1,15 +1,21 @@
 package org.example.spring.model.Entity;
 
 import org.example.spring.model.User;
+import org.springframework.validation.annotation.Validated;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Objects;
 
+@Entity
 public class UserEntity implements User, Serializable {
     private static final long serialVersionUID = 1L;
-
+    @Id
     private long id;
+    //validate
     private String name;
+    //validate
     private String email;
 
     public UserEntity() {
