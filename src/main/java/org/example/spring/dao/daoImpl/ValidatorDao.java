@@ -1,12 +1,6 @@
 package org.example.spring.dao.daoImpl;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.example.spring.dao.ExceptionDao.DaoException;
-
-import java.util.List;
-
-import static org.apache.logging.log4j.Level.DEBUG;
+import org.example.spring.exception.DaoException;
 
 public class ValidatorDao {
 

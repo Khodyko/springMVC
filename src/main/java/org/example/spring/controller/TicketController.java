@@ -61,8 +61,8 @@ public class TicketController {
     @GetMapping(params = "ticketId")
     public ModelAndView getTicketById(@RequestParam("ticketId") long ticketId) {
         ModelAndView modelAndView = new ModelAndView("ticket");
-        modelAndView.addObject("ticket", facade.getTicketById(ticketId));
         facade.preloadTickets();
+        modelAndView.addObject("ticket", facade.getTicketById(ticketId));
         return modelAndView;
     }
 

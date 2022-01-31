@@ -1,17 +1,13 @@
 package org.example.spring.dao.daoImpl;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.example.spring.Storage;
-import org.example.spring.dao.ExceptionDao.DaoException;
+import org.example.spring.exception.DaoException;
 import org.example.spring.dao.UserDao;
 import org.example.spring.model.Entity.UserEntity;
 import org.example.spring.model.User;
 
 import java.util.*;
 import java.util.stream.Collectors;
-
-import static org.apache.logging.log4j.Level.DEBUG;
 
 public class UserDaoImpl implements UserDao {
     private Storage storage;

@@ -1,16 +1,12 @@
 package org.example.spring.service.serviceImpl;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.example.spring.dao.ExceptionDao.DaoException;
+import org.example.spring.exception.DaoException;
 import org.example.spring.dao.daoImpl.UserDaoImpl;
 import org.example.spring.model.User;
-import org.example.spring.service.ServiceException.ServiceException;
+import org.example.spring.exception.ServiceException;
 import org.example.spring.service.UserService;
 
 import java.util.List;
-
-import static org.apache.logging.log4j.Level.DEBUG;
 
 public class UserServiceImpl implements UserService {
     private UserDaoImpl userDaoImpl;

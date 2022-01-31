@@ -3,6 +3,9 @@ package org.example.spring.model.Entity;
 import javax.xml.bind.annotation.*;
 import java.util.List;
 
+/**
+ * this entity used for xml (un)marshaling lists of tickets by JAXB
+ */
 @XmlRootElement(name = "tickets")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class TicketEntities {

@@ -1,18 +1,14 @@
 package org.example.spring.dao.daoImpl;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.example.spring.Storage;
 import org.example.spring.dao.EventDao;
-import org.example.spring.dao.ExceptionDao.DaoException;
+import org.example.spring.exception.DaoException;
 import org.example.spring.model.Entity.EventEntity;
 import org.example.spring.model.Event;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
-
-import static org.apache.logging.log4j.Level.DEBUG;
 
 
 public class EventDaoImpl implements EventDao {

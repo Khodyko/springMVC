@@ -1,17 +1,13 @@
 package org.example.spring.service.serviceImpl;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.example.spring.dao.ExceptionDao.DaoException;
+import org.example.spring.exception.DaoException;
 import org.example.spring.dao.daoImpl.EventDaoImpl;
 import org.example.spring.model.Event;
 import org.example.spring.service.EventService;
-import org.example.spring.service.ServiceException.ServiceException;
+import org.example.spring.exception.ServiceException;
 
 import java.util.Date;
 import java.util.List;
-
-import static org.apache.logging.log4j.Level.DEBUG;
 
 
 public class EventServiceImpl implements EventService {

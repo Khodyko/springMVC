@@ -4,14 +4,15 @@
     <title>Title</title>
 </head>
 <body>
-event
-
+<h1>Events</h1>
+<h2 th:if="${event}" th:text="|eventId=|+${event.id}"></h2>
 <h2 th:if="${event}" th:text="|eventTitle=|+${event.title}"></h2>
+<h2 th:if="${event}" th:text="|eventDate=|+${event.date}"></h2>
 <div th:if="${events}" th:each="oneEvent : ${events}">
+    <h2 th:text="|eventId=|+${oneEvent.id}"></h2>
     <h2 th:text="|eventTitle=|+${oneEvent.title}"></h2>
+    <h2 th:text="|eventDate=|+${oneEvent.date}"></h2>
+    <h2 th:text="|--------------------------------------------------------------|"></h2>
 </div>
-
-
-
 </body>
 </html>

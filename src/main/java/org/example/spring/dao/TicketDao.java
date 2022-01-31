@@ -1,9 +1,7 @@
 package org.example.spring.dao;
 
-import org.example.spring.dao.ExceptionDao.DaoException;
-import org.example.spring.model.Event;
+import org.example.spring.exception.DaoException;
 import org.example.spring.model.Ticket;
-import org.example.spring.model.User;
 
 import java.util.List;
 import java.util.Set;

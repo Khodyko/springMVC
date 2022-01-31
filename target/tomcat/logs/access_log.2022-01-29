@@ -1,1 +1,0 @@
-0:0:0:0:0:0:0:1 - - [29/Jan/2022:22:45:02 +0300] "GET /springmvc/ticket?ticketId=0 HTTP/1.1" 200 225 http-bio-8080-exec-1 502

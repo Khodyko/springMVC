@@ -18,6 +18,7 @@ org\example\spring\dao\daoImpl\EventDaoImpl.class
 org\example\spring\controller\TicketController.class
 org\example\spring\facade\BookingFacade.class
 org\example\spring\dao\TicketDao.class
+org\example\spring\TicketBatchWriter.class
 org\example\spring\controller\BaseController.class
 org\example\spring\model\Ticket$Category.class
 org\example\spring\controller\EventController.class

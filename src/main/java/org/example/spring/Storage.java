@@ -1,6 +1,7 @@
 package org.example.spring;
 
 
+import org.example.spring.converter.JsonReader;
 import org.example.spring.model.Entity.EventEntity;
 import org.example.spring.model.Entity.TicketEntity;
 import org.example.spring.model.Entity.UserEntity;

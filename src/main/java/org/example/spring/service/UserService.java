@@ -1,7 +1,7 @@
 package org.example.spring.service;
 
 import org.example.spring.model.User;
-import org.example.spring.service.ServiceException.ServiceException;
+import org.example.spring.exception.ServiceException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

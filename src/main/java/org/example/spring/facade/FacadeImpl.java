@@ -1,12 +1,10 @@
 package org.example.spring.facade;
 
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.example.spring.model.Event;
 import org.example.spring.model.Ticket;
 import org.example.spring.model.User;
-import org.example.spring.service.ServiceException.ServiceException;
+import org.example.spring.exception.ServiceException;
 import org.example.spring.service.serviceImpl.EventServiceImpl;
 import org.example.spring.service.serviceImpl.TicketServiceImpl;
 import org.example.spring.service.serviceImpl.UserServiceImpl;
@@ -15,9 +13,6 @@ import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Date;
 import java.util.List;
-
-import static org.apache.logging.log4j.Level.DEBUG;
-import static org.apache.logging.log4j.Level.WARN;
 
 
 public class FacadeImpl implements BookingFacade {

@@ -24,6 +24,7 @@ E:\обучение курсы\epam labs\springMVC\src\main\java\org\example\spr
 E:\обучение курсы\epam labs\springMVC\src\main\java\org\example\spring\Runner.java
 E:\обучение курсы\epam labs\springMVC\src\main\java\org\example\spring\dao\daoImpl\ValidatorDao.java
 E:\обучение курсы\epam labs\springMVC\src\main\java\org\example\spring\dao\daoImpl\TicketDaoImpl.java
+E:\обучение курсы\epam labs\springMVC\src\main\java\org\example\spring\TicketBatchWriter.java
 E:\обучение курсы\epam labs\springMVC\src\main\java\org\example\spring\controller\TicketController.java
 E:\обучение курсы\epam labs\springMVC\src\main\java\org\example\spring\convertor\StringToEnumConverter.java
 E:\обучение курсы\epam labs\springMVC\src\main\java\org\example\spring\service\TicketService.java

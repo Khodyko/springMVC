@@ -1,16 +1,14 @@
 package org.example.spring.controller;
 
-import org.example.spring.TicketPDFExporter;
+import org.example.spring.converter.TicketPDFExporter;
 import org.example.spring.facade.FacadeImpl;
 import org.example.spring.model.Entity.UserEntity;
 import org.example.spring.model.Ticket;
 import org.example.spring.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

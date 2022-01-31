@@ -1,9 +1,6 @@
 package org.example.spring.service.serviceImpl;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.example.spring.TicketXmlConverter;
-import org.example.spring.dao.ExceptionDao.DaoException;
+import org.example.spring.exception.DaoException;
 import org.example.spring.dao.daoImpl.EventDaoImpl;
 import org.example.spring.dao.daoImpl.TicketDaoImpl;
 import org.example.spring.dao.daoImpl.UserDaoImpl;
@@ -12,32 +9,32 @@ import org.example.spring.model.Entity.UserEntity;
 import org.example.spring.model.Event;
 import org.example.spring.model.Ticket;
 import org.example.spring.model.User;
-import org.example.spring.service.ServiceException.ServiceException;
+import org.example.spring.exception.ServiceException;
 import org.example.spring.service.TicketService;
+import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.JobParameters;
+import org.springframework.batch.core.launch.support.SimpleJobLauncher;
+import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import static org.apache.logging.log4j.Level.DEBUG;
 
 public class TicketServiceImpl implements TicketService {
     private TicketDaoImpl ticketDaoImpl;
     private UserDaoImpl userDaoImpl;
     private EventDaoImpl eventDaoImpl;
-    private TicketXmlConverter ticketXmlConverter;
+    private SimpleJobLauncher jobLauncher;
+    private Job firstBatchJob;
 
     @Autowired
-    public TicketServiceImpl(TicketDaoImpl ticketDaoImpl, UserDaoImpl userDaoImpl,
-                             EventDaoImpl eventDaoImpl, TicketXmlConverter ticketXmlConverter) {
+    public TicketServiceImpl(TicketDaoImpl ticketDaoImpl, UserDaoImpl userDaoImpl, EventDaoImpl eventDaoImpl, SimpleJobLauncher jobLauncher, Job firstBatchJob) {
         this.ticketDaoImpl = ticketDaoImpl;
         this.userDaoImpl = userDaoImpl;
         this.eventDaoImpl = eventDaoImpl;
-        this.ticketXmlConverter = ticketXmlConverter;
-
+        this.jobLauncher = jobLauncher;
+        this.firstBatchJob = firstBatchJob;
     }
 
     @Override
@@ -94,13 +91,23 @@ public class TicketServiceImpl implements TicketService {
 
     public void preloadTickets(String ticketPreloadXMLPath) throws ServiceException {
         //Batch it!
-        System.out.println("service!!!!!");
+//        System.out.println("service!!!!!");
+//        try {
+//            List<Ticket> ticketList = (List<Ticket>) itemReader.read();
+//            ticketDaoImpl.replaceTickets(ticketList);
+//        } catch (IOException e) {
+//           throw new ServiceException("Can't read xml file");
+//        } catch (Exception e) {
+//            throw new ServiceException("Can't read xml file");
+//        }
+        JobExecution execution = null;
         try {
-            List<Ticket> ticketList = (List<Ticket>) ticketXmlConverter.convertFromXMLToObject(ticketPreloadXMLPath);
-            System.out.println("service ticketList= "+ticketList);
-        } catch (IOException e) {
-           throw new ServiceException("Can't read xml file");
+            execution = jobLauncher.run(firstBatchJob, new JobParameters());
+        } catch (JobExecutionAlreadyRunningException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
+        System.out.println("Exit status: " + execution.getStatus());
     }
 }

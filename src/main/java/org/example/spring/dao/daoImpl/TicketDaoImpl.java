@@ -1,22 +1,13 @@
 package org.example.spring.dao.daoImpl;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.example.spring.Storage;
-import org.example.spring.dao.ExceptionDao.DaoException;
+import org.example.spring.exception.DaoException;
 import org.example.spring.dao.TicketDao;
 import org.example.spring.model.Entity.TicketEntity;
-import org.example.spring.model.Event;
 import org.example.spring.model.Ticket;
-import org.example.spring.model.User;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
-
-import static org.apache.logging.log4j.Level.DEBUG;
 
 public class TicketDaoImpl implements TicketDao {
     private Storage storage;
@@ -67,7 +58,7 @@ public class TicketDaoImpl implements TicketDao {
     public List<Ticket> getBookedTicketsByUser(Set<Long> userIdSet, int pageSize, int pageNum) throws DaoException {
         List<Ticket> ticketList = new ArrayList<>();
         Map<String, TicketEntity> ticketEntityMap = storage.getTicketMap();
-        System.out.println("sorageSize=" + ticketEntityMap.size());
+        System.out.println("storageSize=" + ticketEntityMap.size());
         if (validatorDao.validateListForPage(pageSize, pageNum)) {
             for (Map.Entry<String, TicketEntity> entry : ticketEntityMap.entrySet()) {
                 System.out.println("entry= " + entry.getValue().getId());
@@ -126,4 +117,18 @@ public class TicketDaoImpl implements TicketDao {
                 collect(Collectors.toList());
     }
 
+    public void replaceTickets(List<TicketEntity> ticketList) {
+        Map<String, TicketEntity> ticketMapForReplace = new HashMap<>();
+        System.out.println("size "+ticketList.size());
+        for (int i = 0; i < ticketList.size(); i++) {
+            //set id, because ticket haven't id
+            ticketList.get(i).setId(i);
+            ticketMapForReplace.put("ticket:" + i,  ticketList.get(i));
+        }
+        Map<String, TicketEntity> ticketMapFromStorage = storage.getTicketMap();
+        ticketMapFromStorage.clear();
+        ticketMapFromStorage.putAll(ticketMapForReplace);
+        System.out.println("Dao is done!!!!"+ticketMapFromStorage);
+
+    }
 }

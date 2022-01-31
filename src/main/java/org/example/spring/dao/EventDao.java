@@ -1,6 +1,6 @@
 package org.example.spring.dao;
 
-import org.example.spring.dao.ExceptionDao.DaoException;
+import org.example.spring.exception.DaoException;
 import org.example.spring.model.Event;
 
 import java.util.Date;
