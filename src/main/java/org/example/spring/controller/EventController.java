@@ -1,19 +1,18 @@
 package org.example.spring.controller;
 
 
+import org.example.spring.exception.ApplicationException;
+import org.example.spring.exception.FacadeException;
 import org.example.spring.facade.FacadeImpl;
 import org.example.spring.model.Entity.EventEntity;
 import org.example.spring.model.Event;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.sql.Date;
-import java.text.SimpleDateFormat;
 
 @Controller
 @RequestMapping("/event")
@@ -30,28 +29,40 @@ public class EventController {
     }
 
     @GetMapping(params = "eventId")
-    public ModelAndView getEventById(@RequestParam("eventId") long eventId) {
+    public ModelAndView getEventById(@RequestParam("eventId") long eventId) throws ApplicationException {
         ModelAndView modelAndView = new ModelAndView("event");
-        modelAndView.addObject("event", facade.getEventById(eventId));
+        Event event = facade.getEventById(eventId);
+        if (event == null) {
+            throw new ApplicationException("event not found");
+        }
+        modelAndView.addObject("event", event);
         return modelAndView;
     }
 
     @GetMapping(params = {"title", "page-size", "page-num"})
     public ModelAndView getEventsByTitle(@RequestParam(value = "title") String title,
                                          @RequestParam(value = "page-size") int pageSize,
-                                         @RequestParam(value = "page-num") int pageNum) {
+                                         @RequestParam(value = "page-num") int pageNum) throws ApplicationException {
         ModelAndView modelAndView = new ModelAndView("event");
-        System.out.println("title="+title+" "+pageSize+" "+pageNum);
-        modelAndView.addObject("events", facade.getEventsByTitle(title, pageSize, pageNum));
+        System.out.println("title=" + title + " " + pageSize + " " + pageNum);
+        try {
+            modelAndView.addObject("events", facade.getEventsByTitle(title, pageSize, pageNum));
+        } catch (FacadeException e) {
+            throw new ApplicationException(e.getMessage(), e);
+        }
         return modelAndView;
     }
 
     @GetMapping(params = {"day", "page-size", "page-num"})
     public ModelAndView getEventsForDay(@RequestParam Date day, @RequestParam(value = "page-size") int pageSize,
-                                        @RequestParam(value = "page-num") int pageNum, Model model) {
+                                        @RequestParam(value = "page-num") int pageNum, Model model) throws ApplicationException {
         ModelAndView modelAndView = new ModelAndView("event");
         System.out.println(day);
-        modelAndView.addObject("events", facade.getEventsForDay(day, pageSize, pageNum));
+        try {
+            modelAndView.addObject("events", facade.getEventsForDay(day, pageSize, pageNum));
+        } catch (FacadeException e) {
+            throw new ApplicationException(e.getMessage(), e);
+        }
         return modelAndView;
     }
 
@@ -59,7 +70,7 @@ public class EventController {
     public ModelAndView createEvent(@RequestParam String title, @RequestParam Date day) {
         Event event = new EventEntity(title, day);
         ModelAndView modelAndView = new ModelAndView("event");
-        modelAndView.addObject("event",facade.createEvent(event));
+        modelAndView.addObject("event", facade.createEvent(event));
         return modelAndView;
     }
 
@@ -72,16 +83,13 @@ public class EventController {
     }
 
     @DeleteMapping
-    public ModelAndView deleteEvent(@RequestParam long eventId) {
+    public ModelAndView deleteEvent(@RequestParam long eventId) throws ApplicationException {
 
         ModelAndView modelAndView = new ModelAndView("event");
         if (facade.deleteEvent(eventId)) {
-            //fixme
+            return modelAndView;
         } else {
-            // FIXME
+            throw new ApplicationException("Entitie is not deleted");
         }
-        return modelAndView;
     }
-
-
 }

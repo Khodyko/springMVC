@@ -1,5 +1,7 @@
 package org.example.spring.controller;
 
+import org.example.spring.exception.ApplicationException;
+import org.example.spring.exception.FacadeException;
 import org.example.spring.facade.FacadeImpl;
 import org.example.spring.model.Entity.UserEntity;
 import org.example.spring.model.User;
@@ -39,9 +41,13 @@ public class UserController {
     @GetMapping(params = {"name", "page-size", "page-num"})
     public ModelAndView getUsersByName(@RequestParam(value = "name") String name,
                                        @RequestParam(value = "page-size") int pageSize,
-                                       @RequestParam(value = "page-num") int pageNum) {
+                                       @RequestParam(value = "page-num") int pageNum) throws ApplicationException {
         ModelAndView modelAndView = new ModelAndView("user");
-        modelAndView.addObject("users", facade.getUsersByName(name, pageSize, pageNum));
+        try {
+            modelAndView.addObject("users", facade.getUsersByName(name, pageSize, pageNum));
+        } catch (FacadeException e) {
+            throw new ApplicationException(e.getMessage(),e);
+        }
         return modelAndView;
     }
 
@@ -64,13 +70,13 @@ public class UserController {
     }
 
     @DeleteMapping
-    public ModelAndView deleteUser(@RequestParam("userId") long userId) {
+    public ModelAndView deleteUser(@RequestParam("userId") long userId) throws ApplicationException {
         ModelAndView modelAndView = new ModelAndView("user");
         if (facade.deleteEvent(userId)) {
-            //fixme
+            return modelAndView;
         } else {
-            // FIXME
+            throw new ApplicationException("Entitie is not deleted");
         }
-        return modelAndView;
+
     }
 }

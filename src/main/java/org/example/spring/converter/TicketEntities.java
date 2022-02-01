@@ -1,4 +1,6 @@
-package org.example.spring.model.Entity;
+package org.example.spring.converter;
+
+import org.example.spring.model.Entity.TicketEntity;
 
 import javax.xml.bind.annotation.*;
 import java.util.List;

@@ -1,6 +1,7 @@
 package org.example.spring.facade;
 
 
+import org.example.spring.exception.FacadeException;
 import org.example.spring.model.Event;
 import org.example.spring.model.Ticket;
 import org.example.spring.model.User;
@@ -28,7 +29,7 @@ public interface BookingFacade {
      * @param pageNum Pagination param. Number of the page to return. Starts from 1.
      * @return List of events.
      */
-    List<Event> getEventsByTitle(String title, int pageSize, int pageNum);
+    List<Event> getEventsByTitle(String title, int pageSize, int pageNum) throws FacadeException;
 
     /**
      * Get list of events for specified day.
@@ -38,7 +39,7 @@ public interface BookingFacade {
      * @param pageNum Pagination param. Number of the page to return. Starts from 1.
      * @return List of events.
      */
-    List<Event> getEventsForDay(Date day, int pageSize, int pageNum);
+    List<Event> getEventsForDay(Date day, int pageSize, int pageNum) throws FacadeException;
 
     /**
      * Creates new event. Event id should be auto-generated.
@@ -81,7 +82,7 @@ public interface BookingFacade {
      * @param pageNum Pagination param. Number of the page to return. Starts from 1.
      * @return List of users.
      */
-    List<User> getUsersByName(String name, int pageSize, int pageNum);
+    List<User> getUsersByName(String name, int pageSize, int pageNum) throws FacadeException;
 
     /**
      * Creates new user. User id should be auto-generated.
@@ -113,7 +114,7 @@ public interface BookingFacade {
      * @return Booked ticket object.
      * @throws IllegalStateException if this place has already been booked.
      */
-    Ticket bookTicket(long userId, long eventId, int place, Ticket.Category category);
+    Ticket bookTicket(long userId, long eventId, int place, Ticket.Category category) throws FacadeException;
 
     /**
      * Get all booked tickets for specified user. Tickets should be sorted by event date in descending order.
@@ -122,7 +123,7 @@ public interface BookingFacade {
      * @param pageNum Pagination param. Number of the page to return. Starts from 1.
      * @return List of Ticket objects.
      */
-    List<Ticket> getBookedTickets(User user, int pageSize, int pageNum);
+    List<Ticket> getBookedTickets(User user, int pageSize, int pageNum) throws FacadeException;
 
     /**
      * Get all booked tickets for specified event. Tickets should be sorted in by user email in ascending order.
@@ -131,7 +132,7 @@ public interface BookingFacade {
      * @param pageNum Pagination param. Number of the page to return. Starts from 1.
      * @return List of Ticket objects.
      */
-    List<Ticket> getBookedTickets(Event event, int pageSize, int pageNum);
+    List<Ticket> getBookedTickets(Event event, int pageSize, int pageNum) throws FacadeException;
 
     /**
      * Cancel ticket with a specified id.

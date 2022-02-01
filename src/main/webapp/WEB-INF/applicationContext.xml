@@ -127,6 +127,6 @@
         <constructor-arg ref="facadeImpl"/>
     </bean>
     <bean id="ticketPDFExporter" class="org.example.spring.converter.TicketPDFExporter"/>
-    <bean id="ticketEntities" class="org.example.spring.model.Entity.TicketEntities"/>
+    <bean id="ticketEntities" class="org.example.spring.converter.TicketEntities"/>
 
 </beans>

@@ -1,6 +1,8 @@
 package org.example.spring.controller;
 
 import org.example.spring.converter.TicketPDFExporter;
+import org.example.spring.exception.ApplicationException;
+import org.example.spring.exception.FacadeException;
 import org.example.spring.facade.FacadeImpl;
 import org.example.spring.model.Entity.UserEntity;
 import org.example.spring.model.Ticket;
@@ -9,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
@@ -37,7 +38,7 @@ public class TicketPDFController {
                                 @RequestParam(value = "email") String email,
                                 @RequestParam(value = "page-size") int pageSize,
                                 @RequestParam(value = "page-num") int pageNum,
-                                HttpServletResponse response) throws IOException {
+                                HttpServletResponse response) throws IOException, ApplicationException {
         response.setContentType("application/pdf");
         User user = new UserEntity(name, email);
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
@@ -45,7 +46,12 @@ public class TicketPDFController {
         String headerKey = "Content-Disposition";
         String headerValue = "attachment; filename=tickets_" + currentDateTime + ".pdf";
         response.setHeader(headerKey, headerValue);
-        List<Ticket> ticketList = facade.getBookedTickets(user, pageSize, pageNum);
-        exporter.export(response, ticketList);
+        List<Ticket> ticketList = null;
+        try {
+            ticketList = facade.getBookedTickets(user, pageSize, pageNum);
+            exporter.export(response, ticketList);
+        } catch (FacadeException e) {
+            throw new ApplicationException(e.getMessage(),e);
+        }
     }
 }

@@ -1,6 +1,7 @@
 package org.example.spring.facade;
 
 
+import org.example.spring.exception.FacadeException;
 import org.example.spring.model.Event;
 import org.example.spring.model.Ticket;
 import org.example.spring.model.User;
@@ -43,23 +44,23 @@ public class FacadeImpl implements BookingFacade {
 
     @Override
     public List<Event> getEventsByTitle(String title, int pageSize,
-                                        int pageNum) {
+                                        int pageNum) throws FacadeException {
         try {
             return eventServiceImpl.getEventsByTitle(title, pageSize, pageNum);
         } catch (ServiceException e) {
-
+            throw new FacadeException(e.getMessage(), e );
         }
-        return null;
     }
 
     @Override
-    public List<Event> getEventsForDay(Date day, int pageSize, int pageNum) {
+    public List<Event> getEventsForDay(Date day, int pageSize, int pageNum) throws FacadeException {
         try {
             return eventServiceImpl.getEventsForDay(day, pageSize, pageNum);
         } catch (ServiceException e) {
-
+            throw new FacadeException(e.getMessage(), e );
         }
-        return null;
+
+
     }
 
     @Override
@@ -90,13 +91,13 @@ public class FacadeImpl implements BookingFacade {
 
     @Override
     public List<User> getUsersByName(String name, int pageSize,
-                                     int pageNum) {
+                                     int pageNum) throws FacadeException {
         try {
             return userServiceImpl.getUsersByName(name, pageSize, pageNum);
         } catch (ServiceException e) {
-
+            throw new FacadeException(e.getMessage(), e );
         }
-        return null;
+
     }
 
     @Override
@@ -117,33 +118,32 @@ public class FacadeImpl implements BookingFacade {
 
     @Override
     public Ticket bookTicket(long userId, long eventId, int place,
-                             Ticket.Category category) {
+                             Ticket.Category category) throws FacadeException {
         try {
             return ticketServiceImpl.bookTicket(userId, eventId, place, category);
         } catch (ServiceException e) {
-
+            throw new FacadeException(e.getMessage(), e );
         }
-        return null;
+
     }
 
     @Override
-    public List<Ticket> getBookedTickets(User user, int pageSize, int pageNum) {
+    public List<Ticket> getBookedTickets(User user, int pageSize, int pageNum) throws FacadeException {
         try {
             return ticketServiceImpl.getBookedTickets(user, pageSize, pageNum);
         } catch (ServiceException e) {
-
+            throw new FacadeException(e.getMessage(), e );
         }
-        return null;
+
     }
 
     @Override
-    public List<Ticket> getBookedTickets(Event event, int pageSize, int pageNum) {
+    public List<Ticket> getBookedTickets(Event event, int pageSize, int pageNum) throws FacadeException {
         try {
             return ticketServiceImpl.getBookedTickets(event, pageSize, pageNum);
         } catch (ServiceException e) {
-
+            throw new FacadeException(e.getMessage(), e );
         }
-        return null;
     }
 
     public Ticket getTicketById(long id) {
@@ -158,12 +158,12 @@ public class FacadeImpl implements BookingFacade {
     }
 
     //add to interfaces this methods?
-    public void preloadTickets(){
+    public void preloadTickets() throws FacadeException {
         System.out.println("facade!!!!!");
         try {
             ticketServiceImpl.preloadTickets(ticketPreloadXMLPath);
         } catch (ServiceException e) {
-           //fixme
+            throw new FacadeException(e.getMessage(), e );
         }
     }
 }

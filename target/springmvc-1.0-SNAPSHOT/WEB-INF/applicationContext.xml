@@ -3,11 +3,10 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:batch="http://www.springframework.org/schema/batch"
-       xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
     http://www.springframework.org/schema/context
-    http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd">
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
 
     <context:component-scan
             base-package="org.example.spring"/>
@@ -35,25 +34,24 @@
     </bean>
     <bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
         <property name="templateEngine" ref="templateEngine"/>
-        <!--        <property name="viewNames" value="*.html,*.xhtml" />-->
     </bean>
     <!--XML-->
-<!--    <bean id="ticketXmlConverter" class="org.example.spring.TicketXmlConverter">-->
-<!--        <property name="marshaller" ref="jaxbMarshaller"/>-->
-<!--        <property name="unmarshaller" ref="jaxbMarshaller"/>-->
-<!--    </bean>-->
-<!--    <bean id="jaxbMarshaller"-->
-<!--          class="org.springframework.oxm.jaxb.Jaxb2Marshaller">-->
-<!--        <property name="packagesToScan" value="org.example.spring.model"/>-->
-<!--        <property name="marshallerProperties">-->
-<!--            <map>-->
-<!--                <entry key="jaxb.formatted.output">-->
-<!--                    <value type="boolean">true</value>-->
-<!--                </entry>-->
-<!--            </map>-->
-<!--        </property>-->
-<!--    </bean>-->
-    <!--    property-->
+    <bean id="ticketXmlConverter" class="org.example.spring.converter.TicketXmlConverter">
+        <property name="marshaller" ref="jaxbMarshaller"/>
+        <property name="unmarshaller" ref="jaxbMarshaller"/>
+    </bean>
+
+    <bean id="jaxbMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+        <property name="packagesToScan" value="org.example.spring.model"/>
+        <property name="marshallerProperties">
+            <map>
+                <entry key="jaxb.formatted.output">
+                    <value type="boolean">true</value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+    <!--    properties-->
     <bean id="booking"
           class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
         <property name="properties">
@@ -70,54 +68,14 @@
             "org.springframework.batch.support.transaction.ResourcelessTransactionManager"/>
     <bean id="jobLauncher"
           class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
-        <property name="jobRepository" ref="jobRepository" />
+        <property name="jobRepository" ref="jobRepository"/>
     </bean>
     <bean id="jobRepository"
           class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean">
         <property name="transactionManager" ref="transactionManager"/>
     </bean>
-<!--    <bean id="itemReader" class="org.springframework.batch.item.xml.StaxEventItemReader">-->
-<!--        <property name="fragmentRootElementName" value="ticket"/>-->
-<!--        <property name="resource" value="${ticket.preload.xml.path}"/>-->
-<!--        <property name="unmarshaller" ref="tradeMarshaller"/>-->
-<!--    </bean>-->
-<!--    <bean id="tradeMarshaller"-->
-<!--          class="org.springframework.oxm.xstream.XStreamMarshaller">-->
-<!--        <property name = "aliases">-->
-<!--        <util:map id = "aliases">-->
-<!--            <entry key = "ticket" value = "Ticket" />-->
-<!--        </util:map>-->
-<!--        </property>-->
-<!--                <property name="autodetectAnnotations" value="true"/>-->
-<!--        <property name="supportedClasses">-->
-<!--            <list>-->
-<!--                <value>org.example.spring.model.Entity.TicketEntity</value>-->
-<!--                <value>org.example.spring.model.Entity.TicketEntities</value>-->
-<!--            </list>-->
-<!--        </property>-->
 
-<!--    </bean>-->
-
-
-    <bean id="ticketXmlConverter" class="org.example.spring.TicketXmlConverter">
-        <property name="marshaller" ref="jaxbMarshaller"/>
-        <property name="unmarshaller" ref="jaxbMarshaller"/>
-    </bean>
-
-    <bean id="jaxbMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
-        <property name="packagesToScan" value="org.example.spring.model"/>
-        <property name="marshallerProperties">
-        <map>
-            <entry key="jaxb.formatted.output">
-                <value type="boolean">true</value>
-            </entry>
-        </map>
-        </property>
-<!--        <property name="schema" value="classpath:org/springframework/oxm/schema.xsd"/>-->
-    </bean>
-
-    <bean id="ticketBatchWriter" class="org.example.spring.TicketBatchWriter"/>
-
+    <bean id="ticketBatchWriter" class="org.example.spring.converter.TicketBatchWriter"/>
     <batch:job id="firstBatchJob">
         <batch:step id="step1">
             <batch:tasklet start-limit="1">
@@ -128,12 +86,11 @@
     </batch:job>
 
 
-
     <bean id="validatorDao" class="org.example.spring.dao.daoImpl.ValidatorDao"></bean>
     <bean id="storage" class="org.example.spring.Storage" init-method="initMethod">
         <property name="jsonReader" ref="jsonReader"/>
     </bean>
-    <bean id="jsonReader" class="org.example.spring.JsonReader"/>
+    <bean id="jsonReader" class="org.example.spring.converter.JsonReader"/>
     <bean id="eventServiceImpl" class="org.example.spring.service.serviceImpl.EventServiceImpl" autowire="byName"/>
     <bean id="userServiceImpl" class="org.example.spring.service.serviceImpl.UserServiceImpl" autowire="byName"/>
     <bean id="ticketServiceImpl" class="org.example.spring.service.serviceImpl.TicketServiceImpl" autowire="byName"/>
@@ -169,7 +126,7 @@
     <bean id="userController" class="org.example.spring.controller.UserController">
         <constructor-arg ref="facadeImpl"/>
     </bean>
-    <bean id="ticketPDFExporter" class="org.example.spring.TicketPDFExporter"/>
-    <bean id="ticketEntities" class="org.example.spring.model.Entity.TicketEntities"/>
+    <bean id="ticketPDFExporter" class="org.example.spring.converter.TicketPDFExporter"/>
+    <bean id="ticketEntities" class="org.example.spring.converter.TicketEntities"/>
 
 </beans>

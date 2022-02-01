@@ -1,18 +1,14 @@
 package org.example.spring.converter;
 
 
-import org.example.spring.model.Entity.TicketEntities;
 import org.example.spring.model.Entity.TicketEntity;
 import org.springframework.batch.item.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.oxm.Marshaller;
 import org.springframework.oxm.Unmarshaller;
 
-import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.List;
 
 public class TicketXmlConverter implements ItemReader {

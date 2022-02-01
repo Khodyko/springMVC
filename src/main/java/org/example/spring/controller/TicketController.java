@@ -1,5 +1,7 @@
 package org.example.spring.controller;
 
+import org.example.spring.exception.ApplicationException;
+import org.example.spring.exception.FacadeException;
 import org.example.spring.facade.FacadeImpl;
 import org.example.spring.model.Entity.EventEntity;
 import org.example.spring.model.Entity.UserEntity;
@@ -30,9 +32,13 @@ public class TicketController {
     public ModelAndView bookTicket(@RequestParam("userId") long userId,
                                    @RequestParam("eventId") long eventId,
                                    @RequestParam("place") int place,
-                                   @RequestParam("category") Ticket.Category category) {
+                                   @RequestParam("category") Ticket.Category category) throws ApplicationException {
         ModelAndView modelAndView = new ModelAndView("ticket");
-        modelAndView.addObject("ticket", facade.bookTicket(userId, eventId, place, category));
+        try {
+            modelAndView.addObject("ticket", facade.bookTicket(userId, eventId, place, category));
+        } catch (FacadeException e) {
+            throw new ApplicationException(e.getMessage(), e);
+        }
         return modelAndView;
     }
 
@@ -40,10 +46,14 @@ public class TicketController {
     public ModelAndView getBookedTickets(@RequestParam(value = "name") String name,
                                          @RequestParam(value = "email") String email,
                                          @RequestParam(value = "page-size") int pageSize,
-                                         @RequestParam(value = "page-num") int pageNum) {
+                                         @RequestParam(value = "page-num") int pageNum) throws ApplicationException {
         User user = new UserEntity(name, email);
         ModelAndView modelAndView = new ModelAndView("ticket");
-        modelAndView.addObject("tickets", facade.getBookedTickets(user, pageSize, pageNum));
+        try {
+            modelAndView.addObject("tickets", facade.getBookedTickets(user, pageSize, pageNum));
+        } catch (FacadeException e) {
+            throw new ApplicationException(e.getMessage(), e);
+        }
         return modelAndView;
     }
 
@@ -51,30 +61,32 @@ public class TicketController {
     public ModelAndView getBookedTickets(@RequestParam(value = "title") String title,
                                          @RequestParam(value = "day") Date day,
                                          @RequestParam(value = "page-size") int pageSize,
-                                         @RequestParam(value = "page-num") int pageNum) {
+                                         @RequestParam(value = "page-num") int pageNum) throws ApplicationException {
         Event event = new EventEntity(title, day);
         ModelAndView modelAndView = new ModelAndView("ticket");
-        modelAndView.addObject("tickets", facade.getBookedTickets(event, pageSize, pageNum));
+        try {
+            modelAndView.addObject("tickets", facade.getBookedTickets(event, pageSize, pageNum));
+        } catch (FacadeException e) {
+            throw new ApplicationException(e.getMessage(), e);
+        }
         return modelAndView;
     }
 
     @GetMapping(params = "ticketId")
     public ModelAndView getTicketById(@RequestParam("ticketId") long ticketId) {
         ModelAndView modelAndView = new ModelAndView("ticket");
-        facade.preloadTickets();
+//        facade.preloadTickets();
         modelAndView.addObject("ticket", facade.getTicketById(ticketId));
         return modelAndView;
     }
 
     @DeleteMapping
-    public ModelAndView cancelTicket(@RequestParam long ticketId) {
+    public ModelAndView cancelTicket(@RequestParam long ticketId) throws ApplicationException {
         ModelAndView modelAndView = new ModelAndView("ticket");
         if (facade.cancelTicket(ticketId)) {
-            //fixme
+            return modelAndView;
         } else {
-            // FIXME
+            throw new ApplicationException("Entity is not deleted");
         }
-        return modelAndView;
-
     }
 }
