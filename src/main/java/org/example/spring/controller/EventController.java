@@ -8,13 +8,14 @@ import org.example.spring.model.Entity.EventEntity;
 import org.example.spring.model.Event;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.sql.Date;
 
-@RestController
+@Controller
 @RequestMapping("/event")
 public class EventController {
 
@@ -29,14 +30,13 @@ public class EventController {
     }
 
     @GetMapping(params = "eventId")
-    @ResponseStatus(code = HttpStatus.OK)
     public ModelAndView getEventById(@RequestParam("eventId") long eventId) throws ApplicationException {
         ModelAndView modelAndView = new ModelAndView("event");
-//        Event event = facade.getEventById(eventId);
-//        if (event == null) {
-//            throw new ApplicationException("event not found");
-//        }
-//        modelAndView.addObject("event", event);
+        Event event = facade.getEventById(eventId);
+        if (event == null) {
+            throw new ApplicationException("event not found");
+        }
+        modelAndView.addObject("event", event);
         return modelAndView;
     }
 
@@ -76,8 +76,8 @@ public class EventController {
     }
 
     @PutMapping
-    public ModelAndView updateEvent(@RequestParam long id, @RequestParam String title, @RequestParam Date day) {
-        Event event = new EventEntity(id, title, day);
+    public ModelAndView updateEvent(@RequestParam long eventId, @RequestParam String title, @RequestParam Date day) {
+        Event event = new EventEntity(eventId, title, day);
         ModelAndView modelAndView = new ModelAndView("event");
         modelAndView.addObject("event", facade.updateEvent(event));
         return modelAndView;
@@ -85,7 +85,6 @@ public class EventController {
 
     @DeleteMapping
     public ModelAndView deleteEvent(@RequestParam long eventId) throws ApplicationException {
-
         ModelAndView modelAndView = new ModelAndView("event");
         if (facade.deleteEvent(eventId)) {
             return modelAndView;

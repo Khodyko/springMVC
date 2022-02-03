@@ -72,7 +72,7 @@ public class UserController {
     @DeleteMapping
     public ModelAndView deleteUser(@RequestParam("userId") long userId) throws ApplicationException {
         ModelAndView modelAndView = new ModelAndView("user");
-        if (facade.deleteEvent(userId)) {
+        if (facade.deleteUser(userId)) {
             return modelAndView;
         } else {
             throw new ApplicationException("Entitie is not deleted");
