@@ -73,7 +73,7 @@ public class TicketServiceImpl implements TicketService {
         Set<Long> eventsIdSet = eventDaoImpl.getEventsByTitleAndDay(event);
 
         try {
-            return ticketDaoImpl.getBookedTickets(eventsIdSet, pageSize, pageNum);
+            return ticketDaoImpl.getBookedTicketsByEvent(eventsIdSet, pageSize, pageNum);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }

@@ -1,5 +1,0 @@
-0:0:0:0:0:0:0:1 - - [01/Feb/2022:17:02:04 +0300] "GET /springmvc/event?day=2021-10-10&page-size=100&page-num=0 HTTP/1.1" 200 414 http-bio-8080-exec-1 504
-0:0:0:0:0:0:0:1 - - [01/Feb/2022:17:02:10 +0300] "GET /springmvc/eventId=1 HTTP/1.1" 404 949 http-bio-8080-exec-3 8
-0:0:0:0:0:0:0:1 - - [01/Feb/2022:17:02:21 +0300] "GET /springmvc/event?eventId=1 HTTP/1.1" 200 310 http-bio-8080-exec-6 20
-0:0:0:0:0:0:0:1 - - [01/Feb/2022:17:02:31 +0300] "GET /springmvc/ticket?ticketId=0 HTTP/1.1" 200 346 http-bio-8080-exec-9 19
-0:0:0:0:0:0:0:1 - - [01/Feb/2022:17:02:45 +0300] "GET /springmvc/user?userId=1 HTTP/1.1" 200 294 http-bio-8080-exec-2 9

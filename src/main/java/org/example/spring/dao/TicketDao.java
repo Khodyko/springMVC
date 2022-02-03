@@ -11,7 +11,7 @@ public interface TicketDao {
 
     public List<Ticket> getBookedTicketsByUser(Set<Long> userIdSet , int pageSize, int pageNum) throws DaoException;
 
-    public List<Ticket> getBookedTickets(Set<Long> eventIdSet, int pageSize, int pageNum) throws DaoException;
+    public List<Ticket> getBookedTicketsByEvent(Set<Long> eventIdSet, int pageSize, int pageNum) throws DaoException;
 
     public boolean cancelTicket(long ticketId);
 

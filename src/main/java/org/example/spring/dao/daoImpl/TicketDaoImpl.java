@@ -72,7 +72,7 @@ public class TicketDaoImpl implements TicketDao {
     }
 
     @Override
-    public List<Ticket> getBookedTickets(Set<Long> eventsIdSet, int pageSize, int pageNum) throws DaoException {
+    public List<Ticket> getBookedTicketsByEvent(Set<Long> eventsIdSet, int pageSize, int pageNum) throws DaoException {
         List<Ticket> ticketList = new ArrayList<>();
         Map<String, TicketEntity> ticketEntityMap = storage.getTicketMap();
         if (validatorDao.validateListForPage(pageSize, pageNum)) {
@@ -129,6 +129,5 @@ public class TicketDaoImpl implements TicketDao {
         ticketMapFromStorage.clear();
         ticketMapFromStorage.putAll(ticketMapForReplace);
         System.out.println("Dao is done!!!!"+ticketMapFromStorage);
-
     }
 }
