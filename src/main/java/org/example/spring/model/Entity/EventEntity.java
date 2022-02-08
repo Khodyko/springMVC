@@ -9,21 +9,23 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
+
 @Entity
 public class EventEntity implements Event, Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     private long id;
     //validate
     private String title;
-//Set all patterns to property
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd-HH", timezone = "Europe/Moscow")
+
+    //Set all patterns to property
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Europe/Moscow")
     private Date date;
 
     public long getId() {
         return id;
     }
-
     public void setId(long id) {
         this.id = id;
     }

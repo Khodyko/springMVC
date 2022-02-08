@@ -1,9 +1,17 @@
 package org.example.spring.model;
 
+import org.example.spring.model.Entity.TicketEntity;
+import org.example.spring.model.Entity.UserEntity;
+
 import java.util.Date;
 
 /**
- * Created by maksym_govorischev.
+ * The Event class represents an object of event that User
+ * can book by Ticket
+ *
+ * @author: Igor Khodyko
+ * @see User
+ * @see Ticket
  */
 public interface Event {
     /**

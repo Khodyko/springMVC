@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>Title</title>
+</head>
+<body>
+<h1>Users</h1>
+<h2 th:if="${user}" th:text="|userId=|+${user.id}"></h2>
+<h2 th:if="${user}" th:text="|userName=|+${user.name}"></h2>
+<h2 th:if="${user}" th:text="|userEmail=|+${user.email}"></h2>
+<div th:if="${users}" th:each="oneUser : ${users}">
+    <h2 th:text="|userId=|+${oneUser.id}"></h2>
+    <h2 th:text="|userName=|+${oneUser.name}"></h2>
+    <h2 th:text="|userEmail=|+${oneUser.email}"></h2>
+    <h2 th:text="|--------------------------------------------------------------|"></h2>
+</div>
+
+
+</body>
+</html>

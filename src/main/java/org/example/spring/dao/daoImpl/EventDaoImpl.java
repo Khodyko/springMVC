@@ -1,6 +1,9 @@
 package org.example.spring.dao.daoImpl;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.spring.Storage;
+import org.example.spring.converter.JsonReader;
 import org.example.spring.dao.EventDao;
 import org.example.spring.exception.DaoException;
 import org.example.spring.model.Entity.EventEntity;
@@ -10,15 +13,22 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static org.apache.logging.log4j.Level.DEBUG;
+
 
 public class EventDaoImpl implements EventDao {
     private Storage storage;
     private ValidatorDao validatorDao;
+    private final static Logger logger =  LogManager.getLogger(EventDaoImpl.class.getName());
 
-
-    public EventDaoImpl() {
+    public EventDaoImpl() {logger.log(DEBUG,  "created");
     }
 
+    public EventDaoImpl(Storage storage, ValidatorDao validatorDao) {
+        this.storage = storage;
+        this.validatorDao = validatorDao;
+        logger.log(DEBUG,  "created");
+    }
 
     public ValidatorDao getValidatorDao() {
         return validatorDao;
@@ -39,13 +49,14 @@ public class EventDaoImpl implements EventDao {
 
     @Override
     public Event getEventById(long eventId) {
-
+        logger.log(DEBUG, "started.");
         Map<String, EventEntity> eventEntityMap = storage.getEventMap();
         return eventEntityMap.getOrDefault("event:" + eventId, null);
     }
 
     @Override
     public List<Event> getEventsByTitle(String title, int pageSize, int pageNum) throws DaoException {
+        logger.log(DEBUG, "started.");
         List<Event> eventList = new ArrayList<>();
         Map<String, EventEntity> eventEntityMap = storage.getEventMap();
         if (validatorDao.validateListForPage(pageSize, pageNum)) {
@@ -61,6 +72,7 @@ public class EventDaoImpl implements EventDao {
 
     @Override
     public List<Event> getEventsForDay(Date day, int pageSize, int pageNum) throws DaoException {
+        logger.log(DEBUG, "started.");
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-dd-MM-HH");
         List<Event> eventList = new ArrayList<>();
         Map<String, EventEntity> eventEntityMap = storage.getEventMap();
@@ -78,6 +90,7 @@ public class EventDaoImpl implements EventDao {
 
     @Override
     public Event saveEvent(Event event) {
+        logger.log(DEBUG, "started.");
         Map<String, EventEntity> eventEntityMap = storage.getEventMap();
         long eventId = 0;
         for (Map.Entry<String, EventEntity> entry : eventEntityMap.entrySet()) {
@@ -92,6 +105,7 @@ public class EventDaoImpl implements EventDao {
 
     @Override
     public Event updateEvent(Event event) {
+        logger.log(DEBUG, "started.");
         Map<String, EventEntity> eventEntityMap = storage.getEventMap();
         if (eventEntityMap.containsKey("event:" + event.getId())) {
             eventEntityMap.put("event:" + event.getId(), (EventEntity) event);
@@ -102,14 +116,15 @@ public class EventDaoImpl implements EventDao {
 
     @Override
     public boolean deleteEvent(long eventId) {
+        logger.log(DEBUG, "started.");
         Map<String, EventEntity> eventEntityMap = storage.getEventMap();
         System.out.println("we find: " + this.getEventById(eventId));
         return eventEntityMap.remove("event:" + eventId, this.getEventById(eventId));
     }
 
-    //used for search ticket by event params,when event doesn't contain id
     @Override
     public Set<Long> getEventsByTitleAndDay(Event event) {
+        logger.log(DEBUG, "started.");
         Set<Long> eventIdSet = new HashSet<>();
         Map<String, EventEntity> eventEntityMap = storage.getEventMap();
         for (Map.Entry<String, EventEntity> entry : eventEntityMap.entrySet()) {
@@ -123,6 +138,7 @@ public class EventDaoImpl implements EventDao {
     }
 
     private List<Event> getPagedList(List<Event> eventList, Integer pageSize, Integer pageNum) {
+        logger.log(DEBUG, "started.");
         return eventList.stream().
                 skip(pageSize * pageNum).
                 limit(pageSize * pageNum + pageSize).

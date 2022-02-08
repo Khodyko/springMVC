@@ -1,5 +1,10 @@
 package org.example.spring.exception;
 
+/**
+ * Used for wrapping Exception in Dao layer to send it into Service Layer.
+ *
+ * @author Igor Khodyko
+ */
 public class DaoException extends Exception {
 
     public DaoException(String message, Throwable cause) {

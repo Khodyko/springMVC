@@ -1,5 +1,10 @@
 package org.example.spring.exception;
 
+/**
+ * This exception used in Controller layers to wrap Exceptions for handling.
+ *
+ * @author Igor Khodyko
+ */
 public class ApplicationException extends Exception {
     public ApplicationException() {
     }

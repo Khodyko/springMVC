@@ -1,5 +1,10 @@
 package org.example.spring.exception;
-
+/**
+ * This exception used in Service layers to wrap
+ * Exceptions to send it to Facade layer.
+ *
+ * @author Igor Khodyko
+ */
 public class ServiceException extends Exception {
     public ServiceException() {
     }

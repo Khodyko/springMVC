@@ -1,7 +1,12 @@
 package org.example.spring.model;
 
 /**
- * Created by maksym_govorischev on 14/03/14.
+ * The User can book the Ticket
+ * to Event
+ *
+ * @author: Igor Khodyko
+ * @see User
+ * @see Event
  */
 public interface User {
     /**

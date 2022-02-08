@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>Title</title>
+</head>
+<body>
+<h1>Tickets</h1>
+<h2 th:if="${ticket}" th:text="|ticketId=|+${ticket.id}"></h2>
+<h2 th:if="${ticket}" th:text="|ticketUsetId=|+${ticket.userId}"></h2>
+<h2 th:if="${ticket}" th:text="|ticketEventId=|+${ticket.eventId}"></h2>
+<h2 th:if="${ticket}" th:text="|ticketCategory=|+${ticket.category}"></h2>
+<h2 th:if="${ticket}" th:text="|ticketPlace=|+${ticket.place}"></h2>
+<div th:if="${tickets}" th:each="oneTicket : ${tickets}">
+    <h2 th:text="|ticketId=|+${oneTicket.id}"></h2>
+    <h2 th:text="|ticketUsetId=|+${oneTicket.userId}"></h2>
+    <h2 th:text="|ticketEventId=|+${oneTicket.eventId}"></h2>
+    <h2 th:text="|ticketCategory=|+${oneTicket.category}"></h2>
+    <h2 th:text="|ticketPlace=|+${oneTicket.place}"></h2>
+    <h2 th:text="|--------------------------------------------------------------|"></h2>
+</div>
+
+
+
+
+
+</body>
+</html>

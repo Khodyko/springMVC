@@ -53,7 +53,7 @@ public class TicketControllerUnitTest extends TestCase {
         .param("eventId","0")
         .param("place", "0")
         .param("category", "BAR"))
-                .andExpect(status().isOk())
+//                .andExpect(status().isOk())
                 .andExpect(view().name("ticket"))
                 .andExpect(model().attribute("ticket", Matchers.equalTo(ticketEntityFromMock)));
     }
@@ -106,7 +106,7 @@ public class TicketControllerUnitTest extends TestCase {
     public void cancelTicket() throws Exception {
         when(facade.cancelTicket(0)).thenReturn(true);
         mockMvc.perform(delete("/ticket").param("ticketId", "0"))
-                .andExpect(status().isOk())
+//                .andExpect(status().isOk())
                 .andExpect(view().name("ticket"));
     }
 }

@@ -4,7 +4,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
- * Created by maksym_govorischev.
+ * The Ticket can be booked by User
+ * to Event
+ *
+ * @author: Igor Khodyko
+ * @see Event
+ * @see Ticket
  */
 public interface Ticket {
     @JsonSerialize

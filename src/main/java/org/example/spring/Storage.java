@@ -1,6 +1,8 @@
 package org.example.spring;
 
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.spring.converter.JsonReader;
 import org.example.spring.model.Entity.EventEntity;
 import org.example.spring.model.Entity.TicketEntity;
@@ -11,6 +13,15 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.apache.logging.log4j.Level.DEBUG;
+
+
+/**
+ * This class is in-memory-data-base.
+ * Storage uses ticketMap, userMap, eventMap as a storage of data.
+ *
+ * @author Igor Khodyko
+ */
 
 public class Storage implements  Serializable {
 
@@ -19,6 +30,7 @@ public class Storage implements  Serializable {
     private Map<String, TicketEntity> ticketMap = new HashMap();
     private Map<String, UserEntity> userMap = new HashMap();
     private Map<String, EventEntity> eventMap = new HashMap();
+    private final static Logger logger =  LogManager.getLogger(Storage.class.getName());
     @Value("${event.file.path}")
     private String eventFilePath;
     @Value("${ticket.file.path}")
@@ -27,7 +39,7 @@ public class Storage implements  Serializable {
     private String userFilePath;
 
     public Storage() {
-
+        logger.log(DEBUG,  "created");
     }
 
     public JsonReader getJsonReader() {
@@ -62,8 +74,13 @@ public class Storage implements  Serializable {
         this.eventMap = eventMap;
     }
 
-
+    /**
+     * Init Bean of this class. Get data from json files by json Reader.
+     *
+     * @see JsonReader
+     */
     public void initMethod(){
+        logger.log(DEBUG, "started. Get data from json files by json Reader");
             eventMap = jsonReader.readFileJson(eventFilePath, EventEntity.class);
             userMap = jsonReader.readFileJson(userFilePath, UserEntity.class);
             ticketMap = jsonReader.readFileJson(ticketFilePath, TicketEntity.class);

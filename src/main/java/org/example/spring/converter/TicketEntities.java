@@ -1,5 +1,7 @@
 package org.example.spring.converter;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.spring.model.Entity.TicketEntity;
 
 import javax.xml.bind.annotation.*;
@@ -11,6 +13,7 @@ import java.util.List;
 @XmlRootElement(name = "tickets")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class TicketEntities {
+    private final static Logger logger =  LogManager.getLogger(JsonReader.class.getName());
 
     public TicketEntities() {
     }

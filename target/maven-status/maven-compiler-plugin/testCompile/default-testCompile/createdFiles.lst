@@ -1,5 +1,7 @@
 org\example\spring\dao\daoImpl\TicketDaoImplTest.class
+org\example\spring\controller\UserControllerUnitTest.class
 org\example\spring\dao\daoImpl\UserDaoImplTest.class
+org\example\spring\controller\TicketControllerUnitTest.class
 org\example\spring\dao\daoImpl\EventDaoImplTest.class
 org\example\spring\facade\FacadeImplTest.class
 org\example\spring\controller\EventControllerUnitTest.class

@@ -1,6 +1,9 @@
 package org.example.spring.dao.daoImpl;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.spring.Storage;
+import org.example.spring.converter.JsonReader;
 import org.example.spring.exception.DaoException;
 import org.example.spring.dao.UserDao;
 import org.example.spring.model.Entity.UserEntity;
@@ -9,9 +12,23 @@ import org.example.spring.model.User;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static org.apache.logging.log4j.Level.DEBUG;
+
 public class UserDaoImpl implements UserDao {
+    private final static Logger logger = LogManager.getLogger(UserDaoImpl.class.getName());
     private Storage storage;
     private ValidatorDao validatorDao;
+
+
+    public UserDaoImpl() {
+        logger.log(DEBUG, "created");
+    }
+
+    public UserDaoImpl(Storage storage, ValidatorDao validatorDao) {
+        logger.log(DEBUG, "created");
+        this.storage = storage;
+        this.validatorDao = validatorDao;
+    }
 
     public ValidatorDao getValidatorDao() {
         return validatorDao;
@@ -29,12 +46,10 @@ public class UserDaoImpl implements UserDao {
         this.storage = storage;
     }
 
-    public UserDaoImpl() {
-
-    }
 
     @Override
     public User getUserById(long userId) {
+        logger.log(DEBUG, "started.");
         UserEntity user = null;
         Map<String, UserEntity> userEntityMap = storage.getUserMap();
         for (Map.Entry<String, UserEntity> entry : userEntityMap.entrySet()) {
@@ -48,6 +63,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User getUserByEmail(String email) {
+        logger.log(DEBUG, "started.");
         UserEntity user = null;
         Map<String, UserEntity> userEntityMap = storage.getUserMap();
         for (Map.Entry<String, UserEntity> entry : userEntityMap.entrySet()) {
@@ -61,6 +77,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> getUsersByName(String name, int pageSize, int pageNum) throws DaoException {
+        logger.log(DEBUG, "started.");
         List<User> userList = new ArrayList<>();
         Map<String, UserEntity> userEntityMap = storage.getUserMap();
         if (validatorDao.validateListForPage(pageSize, pageNum)) {
@@ -76,6 +93,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User saveUser(User user) {
+        logger.log(DEBUG, "started.");
         long userId = 0;
         Map<String, UserEntity> userEntityMap = storage.getUserMap();
         for (Map.Entry<String, UserEntity> entry : userEntityMap.entrySet()) {
@@ -90,6 +108,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User updateUser(User user) {
+        logger.log(DEBUG, "started.");
         Map<String, UserEntity> userEntityMap = storage.getUserMap();
         if (userEntityMap.containsKey("user:" + user.getId())) {
             userEntityMap.put("user:" + user.getId(), (UserEntity) user);
@@ -102,13 +121,14 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public boolean deleteUser(long userId) {
+        logger.log(DEBUG, "started.");
         Map<String, UserEntity> userEntityMap = storage.getUserMap();
         return userEntityMap.remove("user:" + userId, this.getUserById(userId));
     }
 
-    //used for search ticket by event params, when user doesn't contain id
     @Override
     public Set<Long> getUsersByNameAndEmail(User user) {
+        logger.log(DEBUG, "started.");
         Set<Long> userIdSet = new HashSet<>();
         Map<String, UserEntity> userEntityMap = storage.getUserMap();
         for (Map.Entry<String, UserEntity> entry : userEntityMap.entrySet()) {
@@ -121,6 +141,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     private List<User> getPagedList(List<User> userList, Integer pageSize, Integer pageNum) {
+        logger.log(DEBUG, "started.");
         List<User> pagedList;
         return userList.stream().
                 skip(pageSize * pageNum).
