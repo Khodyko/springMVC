@@ -3,9 +3,8 @@ package org.example.spring.dao.daoImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.spring.Storage;
-import org.example.spring.converter.JsonReader;
-import org.example.spring.exception.DaoException;
 import org.example.spring.dao.TicketDao;
+import org.example.spring.exception.DaoException;
 import org.example.spring.model.Entity.TicketEntity;
 import org.example.spring.model.Ticket;
 
@@ -13,7 +12,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.apache.logging.log4j.Level.DEBUG;
-import static org.apache.logging.log4j.Level.WARN;
 
 public class TicketDaoImpl implements TicketDao {
     private Storage storage;
@@ -92,7 +90,6 @@ public class TicketDaoImpl implements TicketDao {
             for (Map.Entry<String, TicketEntity> entry : ticketEntityMap.entrySet()) {
                 if (eventsIdSet.contains(entry.getValue().getEventId())) {
                     ticketList.add(entry.getValue());
-
                 }
             }
             return getPagedList(ticketList, pageSize, pageNum);
@@ -137,8 +134,8 @@ public class TicketDaoImpl implements TicketDao {
         logger.log(DEBUG, "started.");
         Map<String, TicketEntity> ticketMapForReplace = new HashMap<>();
         System.out.println("size " + ticketList.size());
+        //set id
         for (int i = 0; i < ticketList.size(); i++) {
-            //set id, because ticket haven't id
             ticketList.get(i).setId(i);
             ticketMapForReplace.put("ticket:" + i, ticketList.get(i));
         }

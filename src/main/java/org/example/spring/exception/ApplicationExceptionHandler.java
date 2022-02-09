@@ -2,7 +2,6 @@ package org.example.spring.exception;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.spring.converter.JsonReader;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,7 +20,6 @@ public class ApplicationExceptionHandler {
 
     public ApplicationExceptionHandler() {
         logger.log(DEBUG, "created");
-
     }
 
     @ExceptionHandler(ApplicationException.class)

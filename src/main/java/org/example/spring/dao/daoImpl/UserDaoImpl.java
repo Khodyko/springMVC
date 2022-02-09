@@ -3,9 +3,8 @@ package org.example.spring.dao.daoImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.spring.Storage;
-import org.example.spring.converter.JsonReader;
-import org.example.spring.exception.DaoException;
 import org.example.spring.dao.UserDao;
+import org.example.spring.exception.DaoException;
 import org.example.spring.model.Entity.UserEntity;
 import org.example.spring.model.User;
 
@@ -148,5 +147,4 @@ public class UserDaoImpl implements UserDao {
                 limit(pageSize * pageNum + pageSize).
                 collect(Collectors.toList());
     }
-
 }

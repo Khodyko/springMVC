@@ -51,24 +51,14 @@ public class UserDaoImplTest extends TestCase {
     }
 
     @Test
-    public void testGetUsersByName() {
+    public void testGetUsersByName() throws DaoException {
         UserEntity userEntity = new UserEntity(12, "sergei", "sergei@mail.ru");
         List<User> userList = new ArrayList<>();
         Map<String, UserEntity> userEntityMap = storage.getUserMap();
         userEntityMap.put("user:" + userEntity.getId(), userEntity);
         when(storage.getUserMap()).thenReturn(userEntityMap);
-        try {
-            when(validatorDao.validateListForPage(any(Integer.class), any(Integer.class))).thenReturn(true);
-        } catch (DaoException e) {
-            //fix me
-            e.printStackTrace();
-        }
-        try {
-            userList = userDaoImpl.getUsersByName("sergei", 100, 0);
-        } catch (DaoException e) {
-            //fix me
-            e.printStackTrace();
-        }
+        when(validatorDao.validateListForPage(any(Integer.class), any(Integer.class))).thenReturn(true);
+        userList = userDaoImpl.getUsersByName("sergei", 100, 0);
         assertEquals(userList.get(0), userEntity);
     }
 

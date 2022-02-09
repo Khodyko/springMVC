@@ -4,19 +4,17 @@ package org.example.spring.converter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.spring.model.Entity.TicketEntity;
-import org.springframework.batch.item.*;
+import org.springframework.batch.item.ItemReader;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.oxm.Marshaller;
 import org.springframework.oxm.Unmarshaller;
 
 import javax.xml.transform.stream.StreamSource;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
 import static org.apache.logging.log4j.Level.DEBUG;
-import static org.apache.logging.log4j.Level.WARN;
 
 /**
  * Read xml file.
@@ -55,6 +53,7 @@ public class TicketXmlConverter implements ItemReader {
     /**
      * Reads xml-file and converts it to list. Then returns one object in one call of method
      * till list become empty.
+     *
      * @return
      * @throws IOException
      */
@@ -63,7 +62,8 @@ public class TicketXmlConverter implements ItemReader {
         logger.log(DEBUG, "started.");
         if (!batchJobState) {
             try (FileInputStream is = new FileInputStream(filePath)) {
-                list = ((TicketEntities) this.unmarshaller.unmarshal(new StreamSource(is))).getTicketEntitiesList();
+                list = ((TicketEntities) this.unmarshaller.unmarshal(new StreamSource(is)))
+                        .getTicketEntitiesList();
                 batchJobState = true;
                 logger.log(DEBUG, "list of ticketEntities succesfully created");
             }

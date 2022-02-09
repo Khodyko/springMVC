@@ -46,28 +46,29 @@ public class TicketControllerUnitTest extends TestCase {
 
     @Test
     public void bookTicket() throws Exception {
-        TicketEntity ticketEntity=new TicketEntity( 0, 0, Ticket.Category.BAR, 0);
-        TicketEntity ticketEntityFromMock=new TicketEntity(0, 0, 0, Ticket.Category.BAR, 0);
-        when(facade.bookTicket(0,0,0, Ticket.Category.BAR)).thenReturn(ticketEntityFromMock);
-        mockMvc.perform(post("/ticket").param("userId", "0")
-        .param("eventId","0")
-        .param("place", "0")
-        .param("category", "BAR"))
-//                .andExpect(status().isOk())
+        TicketEntity ticketEntity = new TicketEntity(0, 0, Ticket.Category.BAR, 0);
+        TicketEntity ticketEntityFromMock = new TicketEntity(0, 0, 0, Ticket.Category.BAR, 0);
+        when(facade.bookTicket(0, 0, 0, Ticket.Category.BAR)).thenReturn(ticketEntityFromMock);
+        mockMvc.perform(post("/tickets").param("userId", "0")
+                        .param("eventId", "0")
+                        .param("place", "0")
+                        .param("category", "BAR"))
+                .andExpect(status().isCreated())
                 .andExpect(view().name("ticket"))
                 .andExpect(model().attribute("ticket", Matchers.equalTo(ticketEntityFromMock)));
     }
+
     @Test
     public void getBookedTickets() throws Exception {
-        TicketEntity ticketEntity=new TicketEntity(0,0, 0, Ticket.Category.BAR, 0);
+        TicketEntity ticketEntity = new TicketEntity(0, 0, 0, Ticket.Category.BAR, 0);
         List<Ticket> ticketList = new ArrayList<>();
-        UserEntity userEntity = new UserEntity( "sergei", "sergei@mail.ru");
+        UserEntity userEntity = new UserEntity("sergei", "sergei@mail.ru");
         ticketList.add(ticketEntity);
-        when(facade.getBookedTickets(userEntity,100,0)).thenReturn(ticketList);
-        mockMvc.perform(get("/ticket").param("name", "sergei")
-                .param("email","sergei@mail.ru")
-                .param("page-size", "100")
-                .param("page-num", "0"))
+        when(facade.getBookedTickets(userEntity, 100, 0)).thenReturn(ticketList);
+        mockMvc.perform(get("/tickets").param("name", "sergei")
+                        .param("email", "sergei@mail.ru")
+                        .param("page-size", "100")
+                        .param("page-num", "0"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("ticket"))
                 .andExpect(model().attribute("tickets", Matchers.equalTo(ticketList)));
@@ -78,15 +79,15 @@ public class TicketControllerUnitTest extends TestCase {
     public void testGetBookedTickets() throws Exception {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = simpleDateFormat.parse("2021-10-10");
-        TicketEntity ticketEntity=new TicketEntity(0,0, 0, Ticket.Category.BAR, 0);
+        TicketEntity ticketEntity = new TicketEntity(0, 0, 0, Ticket.Category.BAR, 0);
         List<Ticket> ticketList = new ArrayList<>();
-        EventEntity eventEntity = new EventEntity( "title", date);
+        EventEntity eventEntity = new EventEntity("title", date);
         ticketList.add(ticketEntity);
-        when(facade.getBookedTickets(eventEntity,100,0)).thenReturn(ticketList);
-        mockMvc.perform(get("/ticket").param("title", "title")
-                .param("day","2021-10-10")
-                .param("page-size", "100")
-                .param("page-num", "0"))
+        when(facade.getBookedTickets(eventEntity, 100, 0)).thenReturn(ticketList);
+        mockMvc.perform(get("/tickets").param("title", "title")
+                        .param("day", "2021-10-10")
+                        .param("page-size", "100")
+                        .param("page-num", "0"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("ticket"))
                 .andExpect(model().attribute("tickets", Matchers.equalTo(ticketList)));
@@ -94,9 +95,9 @@ public class TicketControllerUnitTest extends TestCase {
 
     @Test
     public void getTicketById() throws Exception {
-        TicketEntity ticketEntity=new TicketEntity(0,0, 0, Ticket.Category.BAR, 0);
+        TicketEntity ticketEntity = new TicketEntity(0, 0, 0, Ticket.Category.BAR, 0);
         when(facade.getTicketById(0)).thenReturn(ticketEntity);
-        mockMvc.perform(get("/ticket").param("ticketId", "0"))
+        mockMvc.perform(get("/tickets").param("ticketId", "0"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("ticket"))
                 .andExpect(model().attribute("ticket", Matchers.equalTo(ticketEntity)));
@@ -105,8 +106,8 @@ public class TicketControllerUnitTest extends TestCase {
     @Test
     public void cancelTicket() throws Exception {
         when(facade.cancelTicket(0)).thenReturn(true);
-        mockMvc.perform(delete("/ticket").param("ticketId", "0"))
-//                .andExpect(status().isOk())
+        mockMvc.perform(delete("/tickets").param("ticketId", "0"))
+                .andExpect(status().isNoContent())
                 .andExpect(view().name("ticket"));
     }
 }

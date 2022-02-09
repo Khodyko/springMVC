@@ -1,7 +1,7 @@
 package org.example.spring.service;
 
-import org.example.spring.model.Event;
 import org.example.spring.exception.ServiceException;
+import org.example.spring.model.Event;
 
 import java.util.Date;
 import java.util.List;

@@ -11,12 +11,6 @@
     <context:component-scan
             base-package="org.example.spring"/>
     <mvc:annotation-driven/>
-    <!--JSP-->
-<!--    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
-<!--        <property name="prefix" value="/WEB-INF/jsp/"/>-->
-<!--        <property name="suffix" value=".jsp"/>-->
-<!--        <property name="order" value="3"/>-->
-<!--    </bean>-->
 
     <!-- Thymeleaf-->
     <bean id="templateResolver"
@@ -40,7 +34,6 @@
         <property name="marshaller" ref="jaxbMarshaller"/>
         <property name="unmarshaller" ref="jaxbMarshaller"/>
     </bean>
-
     <bean id="jaxbMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
         <property name="packagesToScan" value="org.example.spring.model"/>
         <property name="marshallerProperties">
@@ -74,7 +67,6 @@
           class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean">
         <property name="transactionManager" ref="transactionManager"/>
     </bean>
-
     <bean id="ticketBatchWriter" class="org.example.spring.converter.TicketBatchWriter"/>
     <batch:job id="firstBatchJob">
         <batch:step id="step1">
@@ -85,33 +77,9 @@
         </batch:step>
     </batch:job>
 
+    <!--Entities beans-->
 
-    <bean id="validatorDao" class="org.example.spring.dao.daoImpl.ValidatorDao"></bean>
-    <bean id="storage" class="org.example.spring.Storage" init-method="initMethod">
-        <property name="jsonReader" ref="jsonReader"/>
-    </bean>
-    <bean id="jsonReader" class="org.example.spring.converter.JsonReader"/>
-    <bean id="eventServiceImpl" class="org.example.spring.service.serviceImpl.EventServiceImpl" autowire="byName"/>
-    <bean id="userServiceImpl" class="org.example.spring.service.serviceImpl.UserServiceImpl" autowire="byName"/>
-    <bean id="ticketServiceImpl" class="org.example.spring.service.serviceImpl.TicketServiceImpl" autowire="byName"/>
-    <bean id="eventDaoImpl" class="org.example.spring.dao.daoImpl.EventDaoImpl">
-        <property name="storage" ref="storage"/>
-        <property name="validatorDao" ref="validatorDao"/>
-    </bean>
-    <bean id="userDaoImpl" class="org.example.spring.dao.daoImpl.UserDaoImpl">
-        <property name="storage" ref="storage"/>
-        <property name="validatorDao" ref="validatorDao"/>
-    </bean>
-    <bean id="ticketDaoImpl" class="org.example.spring.dao.daoImpl.TicketDaoImpl">
-        <property name="storage" ref="storage"/>
-        <property name="validatorDao" ref="validatorDao"/>
-    </bean>
-
-    <bean id="facadeImpl" class="org.example.spring.facade.FacadeImpl">
-        <constructor-arg ref="eventServiceImpl"/>
-        <constructor-arg ref="userServiceImpl"/>
-        <constructor-arg ref="ticketServiceImpl"/>
-    </bean>
+    <!--    Controllers-->
     <bean id="eventController" class="org.example.spring.controller.EventController">
         <constructor-arg ref="facadeImpl"/>
     </bean>
@@ -126,12 +94,42 @@
     <bean id="userController" class="org.example.spring.controller.UserController">
         <constructor-arg ref="facadeImpl"/>
     </bean>
+    <!--    Facade-->
+    <bean id="facadeImpl" class="org.example.spring.facade.FacadeImpl">
+        <constructor-arg ref="eventServiceImpl"/>
+        <constructor-arg ref="userServiceImpl"/>
+        <constructor-arg ref="ticketServiceImpl"/>
+    </bean>
+    <!--    Services-->
+    <bean id="eventServiceImpl" class="org.example.spring.service.serviceImpl.EventServiceImpl" autowire="byName">
+        <constructor-arg ref="eventDaoImpl"/>
+    </bean>
+    <bean id="userServiceImpl" class="org.example.spring.service.serviceImpl.UserServiceImpl" autowire="byName">
+        <constructor-arg ref="userDaoImpl"/>
+    </bean>
+    <bean id="ticketServiceImpl" class="org.example.spring.service.serviceImpl.TicketServiceImpl" autowire="byName">
+        <constructor-arg ref="ticketDaoImpl"/>
+    </bean>
+    <!--    Dao-->
+    <bean id="eventDaoImpl" class="org.example.spring.dao.daoImpl.EventDaoImpl">
+        <property name="storage" ref="storage"/>
+        <property name="validatorDao" ref="validatorDao"/>
+    </bean>
+    <bean id="validatorDao" class="org.example.spring.dao.daoImpl.ValidatorDao"></bean>
+    <bean id="userDaoImpl" class="org.example.spring.dao.daoImpl.UserDaoImpl">
+        <property name="storage" ref="storage"/>
+        <property name="validatorDao" ref="validatorDao"/>
+    </bean>
+    <bean id="ticketDaoImpl" class="org.example.spring.dao.daoImpl.TicketDaoImpl">
+        <property name="storage" ref="storage"/>
+        <property name="validatorDao" ref="validatorDao"/>
+    </bean>
+    <!--    Converters-->
+    <bean id="jsonReader" class="org.example.spring.converter.JsonReader"/>
     <bean id="ticketPDFExporter" class="org.example.spring.converter.TicketPDFExporter"/>
     <bean id="ticketEntities" class="org.example.spring.converter.TicketEntities"/>
-
-    <!--    Mock-->
-<!--    <bean id="facade" class="org.mockito.Mockito" factory-method="mock">-->
-<!--        <constructor-arg value="org.example.spring.facade.FacadeImpl"/>-->
-<!--    </bean>-->
-
+    <!--    Storage-->
+    <bean id="storage" class="org.example.spring.Storage" init-method="initMethod">
+        <property name="jsonReader" ref="jsonReader"/>
+    </bean>
 </beans>

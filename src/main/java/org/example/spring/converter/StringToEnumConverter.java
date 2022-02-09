@@ -16,7 +16,8 @@ import static org.apache.logging.log4j.Level.DEBUG;
 public class StringToEnumConverter implements Converter<String, Ticket.Category> {
     private final static Logger logger =  LogManager.getLogger(JsonReader.class.getName());
 
-    public StringToEnumConverter() {logger.log(DEBUG,  "created");
+    public StringToEnumConverter() {
+        logger.log(DEBUG,  "created");
     }
 
     @Override

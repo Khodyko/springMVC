@@ -29,61 +29,41 @@ public class EventDaoImplTest extends TestCase {
     @InjectMocks
     private EventDaoImpl eventDaoImpl;
 
-//    @Test
-//    public void testGetEventById() {
-//        EventEntity eventEntity = new EventEntity(12, "title12",
-//                new Date(System.currentTimeMillis()));
-//        Map<String, EventEntity> eventEntityMap = new HashMap<>();
-//        eventEntityMap.put("event:" + eventEntity.getId(), eventEntity);
-//        when(storage.getEventMap()).thenReturn(eventEntityMap);
-//        EventEntity eventFromMock = (EventEntity) eventDaoImpl.getEventById(12);
-//        assertEquals(eventFromMock, eventEntity);
-//    }
+    @Test
+    public void testGetEventById() {
+        EventEntity eventEntity = new EventEntity(12, "title12",
+                new Date(System.currentTimeMillis()));
+        Map<String, EventEntity> eventEntityMap = new HashMap<>();
+        eventEntityMap.put("event:" + eventEntity.getId(), eventEntity);
+        when(storage.getEventMap()).thenReturn(eventEntityMap);
+        EventEntity eventFromMock = (EventEntity) eventDaoImpl.getEventById(12);
+        assertEquals(eventFromMock, eventEntity);
+    }
 
     @Test
-    public void testGetEventsByTitle() {
+    public void testGetEventsByTitle() throws DaoException {
         Date day = new Date(System.currentTimeMillis());
         EventEntity eventEntity = new EventEntity(12, "title12", day);
         Map<String, EventEntity> eventEntityMap = new HashMap<>();
         eventEntityMap.put("event:" + eventEntity.getId(), eventEntity);
-        List<Event> eventList = new ArrayList<>();
+        List<Event> eventList ;
         when(storage.getEventMap()).thenReturn(eventEntityMap);
-        try {
-            when(validatorDao.validateListForPage( any(Integer.class), any(Integer.class))).thenReturn(true);
-        } catch (DaoException e) {
-            //fix me
-            e.printStackTrace();
-        }
-        try {
-            eventList = eventDaoImpl.getEventsByTitle("title12", 100, 0);
-        } catch (DaoException e) {
-            //fix me
-            e.printStackTrace();
-        }
+        when(validatorDao.validateListForPage(any(Integer.class), any(Integer.class))).thenReturn(true);
+        eventList = eventDaoImpl.getEventsByTitle("title12", 100, 0);
         assert (eventList.get(0).equals(eventEntity));
     }
 
 
     @Test
-    public void testGetEventsForDay() {
+    public void testGetEventsForDay() throws DaoException {
         Date day = new Date(System.currentTimeMillis());
         EventEntity eventEntity = new EventEntity(12, "title12", day);
         Map<String, EventEntity> eventEntityMap = new HashMap<>();
         eventEntityMap.put("event:" + eventEntity.getId(), eventEntity);
         List<Event> eventList = new ArrayList<>();
         when(storage.getEventMap()).thenReturn(eventEntityMap);
-        try {
-            when(validatorDao.validateListForPage(any(Integer.class), any(Integer.class))).thenReturn(true);
-        } catch (DaoException e) {
-            //fix me
-            e.printStackTrace();
-        }
-        try {
-            eventList = eventDaoImpl.getEventsForDay(day, 100, 0);
-        } catch (DaoException e) {
-            //fix me
-            e.printStackTrace();
-        }
+        when(validatorDao.validateListForPage(any(Integer.class), any(Integer.class))).thenReturn(true);
+        eventList = eventDaoImpl.getEventsByTitle("title12", 100, 0);
         assert (eventList.get(0).equals(eventEntity));
     }
 
@@ -115,9 +95,8 @@ public class EventDaoImplTest extends TestCase {
                 new Date(System.currentTimeMillis()));
         Map<String, EventEntity> eventEntityMap = new HashMap<>();
         eventEntityMap.put("event:" + eventEntity.getId(), eventEntity);
-        System.out.println("test eventEntityMap"+eventEntityMap);
+        System.out.println("test eventEntityMap" + eventEntityMap);
         when(storage.getEventMap()).thenReturn(eventEntityMap);
-
         Boolean isEventDeleted = eventDaoImpl.deleteEvent(12);
         assertTrue(isEventDeleted);
     }

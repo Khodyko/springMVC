@@ -127,10 +127,12 @@ public interface BookingFacade {
      * @return Booked ticket object.
      * @throws FacadeException
      */
-    Ticket bookTicket(long userId, long eventId, int place, Ticket.Category category) throws FacadeException;
+    Ticket bookTicket(long userId, long eventId, int place, Ticket.Category category)
+                      throws FacadeException;
 
     /**
-     * Get all booked tickets for specified user. Tickets should be sorted by event date in descending order.
+     * Get all booked tickets for specified user.
+     * Tickets should be sorted by event date in descending order.
      *
      * @param user     User
      * @param pageSize Pagination param. Number of tickets to return on a page.
@@ -140,7 +142,8 @@ public interface BookingFacade {
     List<Ticket> getBookedTickets(User user, int pageSize, int pageNum) throws FacadeException;
 
     /**
-     * Get all booked tickets for specified event. Tickets should be sorted in by user email in ascending order.
+     * Get all booked tickets for specified event.
+     * Tickets should be sorted in by user email in ascending order.
      *
      * @param event    Event
      * @param pageSize Pagination param. Number of tickets to return on a page.

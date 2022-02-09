@@ -3,7 +3,6 @@ package org.example.spring.dao.daoImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.spring.Storage;
-import org.example.spring.converter.JsonReader;
 import org.example.spring.dao.EventDao;
 import org.example.spring.exception.DaoException;
 import org.example.spring.model.Entity.EventEntity;
@@ -19,15 +18,16 @@ import static org.apache.logging.log4j.Level.DEBUG;
 public class EventDaoImpl implements EventDao {
     private Storage storage;
     private ValidatorDao validatorDao;
-    private final static Logger logger =  LogManager.getLogger(EventDaoImpl.class.getName());
+    private final static Logger logger = LogManager.getLogger(EventDaoImpl.class.getName());
 
-    public EventDaoImpl() {logger.log(DEBUG,  "created");
+    public EventDaoImpl() {
+        logger.log(DEBUG, "created");
     }
 
     public EventDaoImpl(Storage storage, ValidatorDao validatorDao) {
         this.storage = storage;
         this.validatorDao = validatorDao;
-        logger.log(DEBUG,  "created");
+        logger.log(DEBUG, "created");
     }
 
     public ValidatorDao getValidatorDao() {

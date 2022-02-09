@@ -4,8 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.spring.Storage;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.io.Serializable;
 import java.nio.file.Paths;
@@ -43,7 +41,6 @@ public class JsonReader implements Serializable {
             TypeFactory typeFactory = mapper.getTypeFactory();
             return mapper.readValue(Paths.get(jsonPath).toFile(),
                     typeFactory.constructMapType(Map.class, String.class, type));
-
         } catch (Exception e) {
             logger.log(WARN, e.getMessage());
         }

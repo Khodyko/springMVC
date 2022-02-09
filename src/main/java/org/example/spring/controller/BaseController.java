@@ -2,36 +2,34 @@ package org.example.spring.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.spring.Storage;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import static org.apache.logging.log4j.Level.DEBUG;
 
 /**
- * The first controller of this application
+ * The first controller of this application.
  *
  * @author: Igor Khodyko
  */
-@Controller
+@RestController
 public class BaseController {
-    private final static Logger logger =  LogManager.getLogger(BaseController.class.getName());
+    private final static Logger logger = LogManager.getLogger(BaseController.class.getName());
 
     public BaseController() {
-        logger.log(DEBUG,  "Created");
+        logger.log(DEBUG, "Created");
     }
 
     /**
-     * @Get
      * @return index.html
+     * @Get
      */
     @GetMapping("/home")
     @ResponseStatus(code = HttpStatus.OK)
     public String goHome() {
-        logger.log(DEBUG,  "started");
-        System.out.println("go index from controller!");
+        logger.log(DEBUG, "started");
         return "index";
     }
 }

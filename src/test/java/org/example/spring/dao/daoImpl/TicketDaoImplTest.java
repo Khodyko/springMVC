@@ -39,32 +39,22 @@ public class TicketDaoImplTest extends TestCase {
     }
 
     @Test
-    public void testGetBookedTicketsByUser() {
+    public void testGetBookedTicketsByUser() throws DaoException {
         List<Ticket> ticketList = new ArrayList<>();
         TicketEntity ticketEntity = new TicketEntity(12, 12, Ticket.Category.BAR, 12);
         UserEntity userEntity = new UserEntity(12, "sergei", "sergei@mail.ru");
         Map<String, TicketEntity> ticketEntityMap = new HashMap<>();
         ticketEntityMap.put("ticket:" + ticketEntity.getId(), ticketEntity);
-        Set<Long> userIdSet=new HashSet<>();
+        Set<Long> userIdSet = new HashSet<>();
         userIdSet.add(12L);
         when(storage.getTicketMap()).thenReturn(ticketEntityMap);
-        try {
-            when(validatorDao.validateListForPage(any(Integer.class), any(Integer.class))).thenReturn(true);
-        } catch (DaoException e) {
-            //fix me
-            e.printStackTrace();
-        }
-        try {
-            ticketList = ticketDaoImpl.getBookedTicketsByUser(userIdSet, 100, 0);
-        } catch (DaoException e) {
-            //fix me
-            e.printStackTrace();
-        }
+        when(validatorDao.validateListForPage(any(Integer.class), any(Integer.class))).thenReturn(true);
+        ticketList = ticketDaoImpl.getBookedTicketsByUser(userIdSet, 100, 0);
         assertEquals(userEntity.getId(), ticketList.get(0).getUserId());
     }
 
     @Test
-    public void testGetBookedTicketsByEvent() {
+    public void testGetBookedTicketsByEvent() throws DaoException {
         Date day = new Date(System.currentTimeMillis());
         List<Ticket> ticketList = new ArrayList<>();
         TicketEntity ticketEntity = new TicketEntity(12, 12, Ticket.Category.BAR, 12);
@@ -72,20 +62,10 @@ public class TicketDaoImplTest extends TestCase {
         Map<String, TicketEntity> ticketEntityMap = new HashMap<>();
         ticketEntityMap.put("ticket:" + ticketEntity.getId(), ticketEntity);
         when(storage.getTicketMap()).thenReturn(ticketEntityMap);
-        Set<Long> eventIdSet=new HashSet<>();
+        Set<Long> eventIdSet = new HashSet<>();
         eventIdSet.add(12L);
-        try {
-            when(validatorDao.validateListForPage(any(Integer.class), any(Integer.class))).thenReturn(true);
-        } catch (DaoException e) {
-            //fix me
-            e.printStackTrace();
-        }
-        try {
-            ticketList = ticketDaoImpl.getBookedTicketsByEvent(eventIdSet, 100, 0);
-        } catch (DaoException e) {
-            //fix me
-            e.printStackTrace();
-        }
+        when(validatorDao.validateListForPage(any(Integer.class), any(Integer.class))).thenReturn(true);
+        ticketList = ticketDaoImpl.getBookedTicketsByEvent(eventIdSet, 100, 0);
         assertEquals(eventEntity.getId(), ticketList.get(0).getEventId());
     }
 

@@ -47,7 +47,7 @@ public class EventControllerUnitTest extends TestCase {
         EventEntity eventEntity = new EventEntity(0, "title", date);
         when(facade.getEventById(0)).thenReturn(eventEntity);
         EventEntity eventEntityFromMock = new EventEntity(0, "title", date);
-        mockMvc.perform(get("/event").param("eventId", "0"))
+        mockMvc.perform(get("/events").param("eventId", "0"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("event"))
                 .andExpect(model().attribute("event", Matchers.equalTo(eventEntity)));
@@ -61,9 +61,9 @@ public class EventControllerUnitTest extends TestCase {
         EventEntity eventEntity = new EventEntity(0, "title", date);
         eventEntityList.add(eventEntity);
         when(facade.getEventsByTitle("title", 100, 0)).thenReturn(eventEntityList);
-        mockMvc.perform(get("/event").param("title", "title")
-                .param("page-size", "100")
-                .param("page-num", "0"))
+        mockMvc.perform(get("/events").param("title", "title")
+                        .param("page-size", "100")
+                        .param("page-num", "0"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("event"))
                 .andExpect(model().attribute("events", Matchers.equalTo(eventEntityList)));
@@ -78,9 +78,9 @@ public class EventControllerUnitTest extends TestCase {
         EventEntity eventEntity = new EventEntity(0, "title", date);
         eventEntityList.add(eventEntity);
         when(facade.getEventsForDay(date, 100, 0)).thenReturn(eventEntityList);
-        mockMvc.perform(get("/event").param("day", "2021-10-10")
-                .param("page-size", "100")
-                .param("page-num", "0"))
+        mockMvc.perform(get("/events").param("day", "2021-10-10")
+                        .param("page-size", "100")
+                        .param("page-num", "0"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("event"))
                 .andExpect(model().attribute("events", Matchers.equalTo(eventEntityList)));
@@ -93,9 +93,9 @@ public class EventControllerUnitTest extends TestCase {
         EventEntity eventEntity = new EventEntity("title", date);
         EventEntity eventEntityFromMock = new EventEntity(0, "title", date);
         when(facade.createEvent(eventEntity)).thenReturn(eventEntityFromMock);
-        mockMvc.perform(post("/event").param("title", "title")
-                .param("day", "2021-10-10"))
-//                .andExpect(status().isOk())
+        mockMvc.perform(post("/events").param("title", "title")
+                        .param("day", "2021-10-10"))
+                .andExpect(status().isCreated())
                 .andExpect(view().name("event"))
                 .andExpect(model().attribute("event", Matchers.equalTo(eventEntityFromMock)));
     }
@@ -107,9 +107,9 @@ public class EventControllerUnitTest extends TestCase {
         EventEntity eventEntity = new EventEntity(0, "title", date);
         EventEntity eventEntityFromMock = new EventEntity(0, "title", date);
         when(facade.updateEvent(eventEntity)).thenReturn(eventEntityFromMock);
-        mockMvc.perform(put("/event").param("eventId", "0")
-                .param("title", "title")
-                .param("day", "2021-10-10"))
+        mockMvc.perform(put("/events").param("eventId", "0")
+                        .param("title", "title")
+                        .param("day", "2021-10-10"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("event"))
                 .andExpect(model().attribute("event", Matchers.equalTo(eventEntityFromMock)));
@@ -118,8 +118,8 @@ public class EventControllerUnitTest extends TestCase {
     @Test
     public void deleteEvent() throws Exception {
         when(facade.deleteEvent(0)).thenReturn(true);
-        mockMvc.perform(delete("/event").param("eventId", "0"))
-//                .andExpect(status().isOk())
+        mockMvc.perform(delete("/events").param("eventId", "0"))
+                .andExpect(status().isNoContent())
                 .andExpect(view().name("event"));
     }
 }

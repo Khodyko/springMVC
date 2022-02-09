@@ -7,7 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -95,7 +98,8 @@ public class TicketEntity implements Ticket, Serializable {
         if (this == o) return true;
         if (!(o instanceof TicketEntity)) return false;
         TicketEntity that = (TicketEntity) o;
-        return id == that.id && eventId == that.eventId && userId == that.userId && place == that.place && category == that.category;
+        return id == that.id && eventId == that.eventId && userId == that.userId &&
+                place == that.place && category == that.category;
     }
 
     @Override

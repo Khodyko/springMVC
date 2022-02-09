@@ -48,47 +48,26 @@ public class FacadeImplTest extends TestCase {
     }
 
     @Test
-    public void getEventsByTitle() {
+    public void getEventsByTitle() throws ServiceException, FacadeException {
         EventEntity eventEntity = new EventEntity(12, "title12",
                 new Date(System.currentTimeMillis()));
-        List<Event> eventList=new ArrayList<>();
+        List<Event> eventList = new ArrayList<>();
         eventList.add(eventEntity);
-        try {
-            when(eventService.getEventsByTitle("title12", 100,0)).thenReturn(eventList);
-        } catch (ServiceException e) {
-            //fix me
-            e.printStackTrace();
-        }
-        try {
-            assert (facade.getEventsByTitle("title12", 100,0).get(0).equals(eventEntity));
-        }
-        catch (FacadeException e) {
-            //fix me
-            e.printStackTrace();
-        }
+        when(eventService.getEventsByTitle("title12", 100, 0)).thenReturn(eventList);
+        assert (facade.getEventsByTitle("title12", 100, 0).get(0).equals(eventEntity));
     }
 
     @Test
-    public void getEventsForDay() {
+    public void getEventsForDay() throws ServiceException, FacadeException {
         Date day = new Date(System.currentTimeMillis());
         EventEntity eventEntity = new EventEntity(12, "title12", day);
 
         List<Event> eventEntityList = new ArrayList<>();
         eventEntityList.add(eventEntity);
-        try {
-            when(eventService.getEventsForDay(day, 100, 0)).thenReturn(eventEntityList);
-        } catch (ServiceException e) {
-            //fix me
-            e.printStackTrace();
-        }
-        List<Event> eventsFromMock= null;
-        try {
-            eventsFromMock = facade.getEventsForDay(day, 100,0);
-        } catch (FacadeException e) {
-            //fix me
-            e.printStackTrace();
-        }
-        assert(eventsFromMock.get(0).getDate().equals(day));
+        when(eventService.getEventsForDay(day, 100, 0)).thenReturn(eventEntityList);
+        List<Event> eventsFromMock = null;
+        eventsFromMock = facade.getEventsForDay(day, 100, 0);
+        assert (eventsFromMock.get(0).getDate().equals(day));
 
     }
 
@@ -116,131 +95,94 @@ public class FacadeImplTest extends TestCase {
     public void deleteEvent() {
         when(eventService.deleteEvent(12)).thenReturn(true);
         when(eventService.deleteEvent(1)).thenReturn(false);
-        assert(facade.deleteEvent(12));
-        assert(!facade.deleteEvent(1));
+        assert (facade.deleteEvent(12));
+        assert (!facade.deleteEvent(1));
     }
 
     @Test
     public void getUserById() {
-        UserEntity userEntity=new UserEntity(12,"Sergei", "sergei@mail.ru");
+        UserEntity userEntity = new UserEntity(12, "Sergei", "sergei@mail.ru");
         when(userService.getUserById(12)).thenReturn(userEntity);
-        assert(facade.getUserById(12).getId()==12);
+        assert (facade.getUserById(12).getId() == 12);
 
     }
 
     @Test
     public void getUserByEmail() {
-        UserEntity userEntity=new UserEntity(12,"Sergei", "sergei@mail.ru");
+        UserEntity userEntity = new UserEntity(12, "Sergei", "sergei@mail.ru");
         when(userService.getUserByEmail("sergei@mail.ru")).thenReturn(userEntity);
-        assert(facade.getUserByEmail("sergei@mail.ru").getEmail().equals("sergei@mail.ru"));
+        assert (facade.getUserByEmail("sergei@mail.ru").getEmail().equals("sergei@mail.ru"));
 
 
     }
 
     @Test
-    public void getUsersByName() {
-        List<User> userList=new ArrayList<>();
-        UserEntity userEntity=new UserEntity(12,"Sergei", "sergei@mail.ru");
+    public void getUsersByName() throws ServiceException, FacadeException {
+        List<User> userList = new ArrayList<>();
+        UserEntity userEntity = new UserEntity(12, "Sergei", "sergei@mail.ru");
         userList.add(userEntity);
-        try {
-            when(userService.getUsersByName("Sergei", 100, 0)).thenReturn(userList);
-        } catch (ServiceException e) {
-            //fix me
-            e.printStackTrace();
-        }
-        List<User> usersFromMock= null;
-        try {
-            usersFromMock = facade.getUsersByName("Sergei", 100, 0);
-        } catch (FacadeException e) {
-            //fix me
-            e.printStackTrace();
-        }
+        when(userService.getUsersByName("Sergei", 100, 0)).thenReturn(userList);
+        List<User> usersFromMock = null;
+        usersFromMock = facade.getUsersByName("Sergei", 100, 0);
         assertNotNull(usersFromMock.get(0));
-        assert(usersFromMock.size()>0);
+        assert (usersFromMock.size() > 0);
     }
 
     @Test
     public void createUser() {
-        UserEntity userEntity=new UserEntity(12,"Sergei", "sergei@mail.ru");
+        UserEntity userEntity = new UserEntity(12, "Sergei", "sergei@mail.ru");
         when(userService.createUser(userEntity)).thenReturn(userEntity);
-        assert(facade.createUser(userEntity).equals(userEntity));
+        assert (facade.createUser(userEntity).equals(userEntity));
 
     }
 
     @Test
     public void updateUser() {
-        UserEntity userEntity=new UserEntity(12,"Sergei", "sergei@mail.ru");
+        UserEntity userEntity = new UserEntity(12, "Sergei", "sergei@mail.ru");
         when(userService.updateUser(userEntity)).thenReturn(userEntity);
-        assert(facade.updateUser(userEntity).equals(userEntity));
+        assert (facade.updateUser(userEntity).equals(userEntity));
 
     }
 
     @Test
     public void deleteUser() {
-        UserEntity userEntity=new UserEntity(12,"Sergei", "sergei@mail.ru");
+        UserEntity userEntity = new UserEntity(12, "Sergei", "sergei@mail.ru");
         when(userService.updateUser(userEntity)).thenReturn(userEntity);
-        assert(facade.updateUser(userEntity).equals(userEntity));
+        assert (facade.updateUser(userEntity).equals(userEntity));
     }
 
     @Test
-    public void bookTicket() throws ServiceException {
-        TicketEntity ticketEntity = new TicketEntity( 12, 12, Ticket.Category.BAR, 12);
-        UserEntity userEntity=new UserEntity("Sergei", "sergei@mail.ru");
-        EventEntity eventEntity=new EventEntity("title12",new Date(System.currentTimeMillis()));
+    public void bookTicket() throws ServiceException, FacadeException {
+        TicketEntity ticketEntity = new TicketEntity(12, 12, Ticket.Category.BAR, 12);
+        UserEntity userEntity = new UserEntity("Sergei", "sergei@mail.ru");
+        EventEntity eventEntity = new EventEntity("title12", new Date(System.currentTimeMillis()));
         when(ticketService.bookTicket(12, 12, 12, Ticket.Category.BAR)).thenReturn(ticketEntity);
-        try {
-            assertNotNull (facade.bookTicket(12, 12, 12, Ticket.Category.BAR));
-        }
-        catch (FacadeException e){
-            //fixme
-            e.printStackTrace();
-        }
+        assertNotNull(facade.bookTicket(12, 12, 12, Ticket.Category.BAR));
     }
 
     @Test
-    public void getBookedTicketsByEvent() {
-        EventEntity eventEntity=new EventEntity("title12",new Date(System.currentTimeMillis()));
-        TicketEntity ticketEntity=new TicketEntity(12,12,12, Ticket.Category.BAR, 12);
-        List<Ticket> ticketList=new ArrayList<>();
+    public void getBookedTicketsByEvent() throws ServiceException, FacadeException {
+        EventEntity eventEntity = new EventEntity("title12", new Date(System.currentTimeMillis()));
+        TicketEntity ticketEntity = new TicketEntity(12, 12, 12, Ticket.Category.BAR, 12);
+        List<Ticket> ticketList = new ArrayList<>();
         ticketList.add(ticketEntity);
-
-        try {
-            when(ticketService.getBookedTickets(eventEntity, 100, 0)).thenReturn(ticketList);
-        } catch (ServiceException e) {
-            //fixme
-            e.printStackTrace();
-        }
-        try {
-            assert (facade.getBookedTickets(eventEntity, 100, 0).get(0).equals(ticketEntity));
-        } catch (FacadeException e) {
-            //fix me
-            e.printStackTrace();
-        }
+        when(ticketService.getBookedTickets(eventEntity, 100, 0)).thenReturn(ticketList);
+        assert (facade.getBookedTickets(eventEntity, 100, 0).get(0).equals(ticketEntity));
     }
 
     @Test
-    public void getBookedTicketsByUsers() {
-        UserEntity userEntity=new UserEntity("Sergei", "sergei@mail.ru");
-        TicketEntity ticketEntity=new TicketEntity(12,12,12, Ticket.Category.BAR, 12);
-        List<Ticket> ticketList=new ArrayList<>();
+    public void getBookedTicketsByUsers() throws ServiceException, FacadeException {
+        UserEntity userEntity = new UserEntity("Sergei", "sergei@mail.ru");
+        TicketEntity ticketEntity = new TicketEntity(12, 12, 12, Ticket.Category.BAR, 12);
+        List<Ticket> ticketList = new ArrayList<>();
         ticketList.add(ticketEntity);
-        try {
-            when(ticketService.getBookedTickets(userEntity, 100, 0)).thenReturn(ticketList);
-        } catch (ServiceException e) {
-            //fix me
-            e.printStackTrace();
-        }
-        try {
-            assert (facade.getBookedTickets(userEntity, 100, 0).get(0).equals(ticketEntity));
-        } catch (FacadeException e) {
-            //fix me
-            e.printStackTrace();
-        }
+        when(ticketService.getBookedTickets(userEntity, 100, 0)).thenReturn(ticketList);
+        assert (facade.getBookedTickets(userEntity, 100, 0).get(0).equals(ticketEntity));
     }
 
     @Test
     public void getTicketById() {
-        TicketEntity ticketEntity=new TicketEntity(12,12,12, Ticket.Category.BAR, 12);
+        TicketEntity ticketEntity = new TicketEntity(12, 12, 12, Ticket.Category.BAR, 12);
         when(ticketService.getTicketById(12)).thenReturn(ticketEntity);
         assert (facade.getTicketById(12).equals(ticketEntity));
 
@@ -249,7 +191,7 @@ public class FacadeImplTest extends TestCase {
     @Test
     public void cancelTicket() {
         when(ticketService.getTicketById(12)).thenReturn(null);
-        assert (facade.getTicketById(12)==null);
+        assert (facade.getTicketById(12) == null);
 
     }
 

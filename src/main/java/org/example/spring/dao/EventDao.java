@@ -48,6 +48,7 @@ public interface EventDao {
 
     /**
      * Generates new id for event. Save new event.
+     *
      * @param event
      * @return Created Event object.
      */

@@ -34,48 +34,26 @@ public class EventServiceImplTest extends TestCase {
     }
 
     @Test
-    public void testGetEventsByTitle() {
+    public void testGetEventsByTitle() throws DaoException, ServiceException {
         EventEntity eventEntity = new EventEntity(12, "title12",
                 new Date(System.currentTimeMillis()));
-        List<Event> eventList=new ArrayList<>();
+        List<Event> eventList = new ArrayList<>();
         eventList.add(eventEntity);
-        try {
-            when(eventDaoImpl.getEventsByTitle("title12", 100,0)).thenReturn(eventList);
-        } catch (DaoException e) {
-            //fix me
-            e.printStackTrace();
-        }
-        try {
-            assert (eventServiceImpl.getEventsByTitle("title12", 100,0).get(0).equals(eventEntity));
-        }
-        catch (ServiceException e) {
-            //fix me
-            e.printStackTrace();
-        }
-
+        when(eventDaoImpl.getEventsByTitle("title12", 100, 0)).thenReturn(eventList);
+        assert (eventServiceImpl.getEventsByTitle("title12", 100, 0).get(0).equals(eventEntity));
     }
 
     @Test
-    public void testGetEventsForDay() {
+    public void testGetEventsForDay() throws DaoException, ServiceException {
         Date day = new Date(System.currentTimeMillis());
         EventEntity eventEntity = new EventEntity(12, "title12", day);
 
         List<Event> eventEntityList = new ArrayList<>();
         eventEntityList.add(eventEntity);
-        try {
-            when(eventDaoImpl.getEventsForDay(day, 100, 0)).thenReturn(eventEntityList);
-        } catch (DaoException e) {
-            //fix me
-            e.printStackTrace();
-        }
-        List<Event> eventsFromMock= null;
-        try {
-            eventsFromMock = eventServiceImpl.getEventsForDay(day, 100,0);
-        } catch (ServiceException e) {
-            //fix me
-            e.printStackTrace();
-        }
-        assert(eventsFromMock.get(0).getDate().equals(day));
+        when(eventDaoImpl.getEventsForDay(day, 100, 0)).thenReturn(eventEntityList);
+        List<Event> eventsFromMock = null;
+        eventsFromMock = eventServiceImpl.getEventsForDay(day, 100, 0);
+        assert (eventsFromMock.get(0).getDate().equals(day));
     }
 
     @Test
@@ -100,7 +78,7 @@ public class EventServiceImplTest extends TestCase {
     public void testDeleteEvent() {
         when(eventDaoImpl.deleteEvent(12)).thenReturn(true);
         when(eventDaoImpl.deleteEvent(1)).thenReturn(false);
-        assert(eventServiceImpl.deleteEvent(12));
-        assert(!eventServiceImpl.deleteEvent(1));
+        assert (eventServiceImpl.deleteEvent(12));
+        assert (!eventServiceImpl.deleteEvent(1));
     }
 }

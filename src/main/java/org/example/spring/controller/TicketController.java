@@ -2,7 +2,6 @@ package org.example.spring.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.spring.converter.JsonReader;
 import org.example.spring.exception.ApplicationException;
 import org.example.spring.exception.FacadeException;
 import org.example.spring.facade.FacadeImpl;
@@ -28,7 +27,7 @@ import static org.apache.logging.log4j.Level.WARN;
  * @author: Igor Khodyko
  */
 @Controller
-@RequestMapping("/ticket")
+@RequestMapping("/tickets")
 public class TicketController {
     private FacadeImpl facade;
     private final static Logger logger = LogManager.getLogger(TicketController.class.getName());
@@ -175,6 +174,7 @@ public class TicketController {
         if (facade.cancelTicket(ticketId)) {
             return modelAndView;
         } else {
+            modelAndView.setStatus(HttpStatus.NOT_FOUND);
             return modelAndView;
         }
     }

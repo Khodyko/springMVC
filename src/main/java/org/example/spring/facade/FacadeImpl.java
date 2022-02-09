@@ -3,12 +3,11 @@ package org.example.spring.facade;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.spring.converter.JsonReader;
 import org.example.spring.exception.FacadeException;
+import org.example.spring.exception.ServiceException;
 import org.example.spring.model.Event;
 import org.example.spring.model.Ticket;
 import org.example.spring.model.User;
-import org.example.spring.exception.ServiceException;
 import org.example.spring.service.serviceImpl.EventServiceImpl;
 import org.example.spring.service.serviceImpl.TicketServiceImpl;
 import org.example.spring.service.serviceImpl.UserServiceImpl;
@@ -51,8 +50,7 @@ public class FacadeImpl implements BookingFacade {
 
 
     @Override
-    public List<Event> getEventsByTitle(String title, int pageSize,
-                                        int pageNum) throws FacadeException {
+    public List<Event> getEventsByTitle(String title, int pageSize, int pageNum) throws FacadeException {
         logger.log(DEBUG, "started.");
         try {
             return eventServiceImpl.getEventsByTitle(title, pageSize, pageNum);
@@ -104,8 +102,7 @@ public class FacadeImpl implements BookingFacade {
     }
 
     @Override
-    public List<User> getUsersByName(String name, int pageSize,
-                                     int pageNum) throws FacadeException {
+    public List<User> getUsersByName(String name, int pageSize, int pageNum) throws FacadeException {
         logger.log(DEBUG, "started.");
         try {
             return userServiceImpl.getUsersByName(name, pageSize, pageNum);
@@ -135,8 +132,8 @@ public class FacadeImpl implements BookingFacade {
     }
 
     @Override
-    public Ticket bookTicket(long userId, long eventId, int place,
-                             Ticket.Category category) throws FacadeException {
+    public Ticket bookTicket(long userId, long eventId, int place, Ticket.Category category)
+                              throws FacadeException {
         logger.log(DEBUG, "started.");
         try {
             return ticketServiceImpl.bookTicket(userId, eventId, place, category);

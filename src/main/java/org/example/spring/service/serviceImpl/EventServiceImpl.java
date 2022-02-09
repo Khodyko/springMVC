@@ -7,6 +7,7 @@ import org.example.spring.exception.DaoException;
 import org.example.spring.exception.ServiceException;
 import org.example.spring.model.Event;
 import org.example.spring.service.EventService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 import java.util.List;
@@ -19,7 +20,7 @@ public class EventServiceImpl implements EventService {
     private EventDaoImpl eventDaoImpl;
     private final static Logger logger = LogManager.getLogger(EventServiceImpl.class.getName());
 
-
+    @Autowired
     public EventServiceImpl(EventDaoImpl eventDaoImpl) {
         this.eventDaoImpl = eventDaoImpl;
         logger.log(DEBUG, "created");

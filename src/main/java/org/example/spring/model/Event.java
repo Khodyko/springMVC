@@ -1,8 +1,5 @@
 package org.example.spring.model;
 
-import org.example.spring.model.Entity.TicketEntity;
-import org.example.spring.model.Entity.UserEntity;
-
 import java.util.Date;
 
 /**

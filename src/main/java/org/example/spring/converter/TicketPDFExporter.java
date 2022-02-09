@@ -10,7 +10,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.spring.model.Ticket;
 
-
 import javax.servlet.http.HttpServletResponse;
 
 import java.awt.*;

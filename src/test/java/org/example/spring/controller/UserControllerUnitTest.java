@@ -44,7 +44,7 @@ public class UserControllerUnitTest extends TestCase {
     public void getUserById() throws Exception {
         UserEntity userEntity = new UserEntity(0, "sergei", "sergei@mail.ru");
         when(facade.getUserById(0)).thenReturn(userEntity);
-        mockMvc.perform(get("/user").param("userId", "0"))
+        mockMvc.perform(get("/users").param("userId", "0"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("user"))
                 .andExpect(model().attribute("user", Matchers.equalTo(userEntity)));
@@ -54,7 +54,7 @@ public class UserControllerUnitTest extends TestCase {
     public void getUserByEmail() throws Exception {
         UserEntity userEntity = new UserEntity(0, "sergei", "sergei@mail.ru");
         when(facade.getUserByEmail("sergei@mail.ru")).thenReturn(userEntity);
-        mockMvc.perform(get("/user").param("email", "sergei@mail.ru"))
+        mockMvc.perform(get("/users").param("email", "sergei@mail.ru"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("user"))
                 .andExpect(model().attribute("user", Matchers.equalTo(userEntity)));
@@ -66,7 +66,7 @@ public class UserControllerUnitTest extends TestCase {
         UserEntity userEntity = new UserEntity(0, "sergei", "sergei@mail.ru");
         userList.add(userEntity);
         when(facade.getUsersByName("sergei", 100, 0)).thenReturn(userList);
-        mockMvc.perform(get("/user").param("name", "sergei")
+        mockMvc.perform(get("/users").param("name", "sergei")
                 .param("page-size", "100")
                 .param("page-num", "0"))
                 .andExpect(status().isOk())
@@ -79,9 +79,9 @@ public class UserControllerUnitTest extends TestCase {
         UserEntity userEntity = new UserEntity( "sergei", "sergei@mail.ru");
         UserEntity userEntityFromMock = new UserEntity(0, "sergei", "sergei@mail.ru");
         when(facade.createUser(userEntity)).thenReturn(userEntityFromMock);
-        mockMvc.perform(post("/user").param("name", "sergei")
+        mockMvc.perform(post("/users").param("name", "sergei")
                 .param("email", "sergei@mail.ru"))
-//                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(view().name("user"))
                 .andExpect(model().attribute("user", Matchers.equalTo(userEntityFromMock)));
     }
@@ -91,7 +91,7 @@ public class UserControllerUnitTest extends TestCase {
         UserEntity userEntity = new UserEntity(0, "sergei", "sergei@mail.ru");
         UserEntity userEntityFromMock = new UserEntity(0, "sergei", "sergei@mail.ru");
         when(facade.updateUser(userEntity)).thenReturn(userEntityFromMock);
-        mockMvc.perform(put("/user").param("eventId", "0")
+        mockMvc.perform(put("/users").param("eventId", "0")
                 .param("name", "sergei")
                 .param("email", "sergei@mail.ru"))
                 .andExpect(status().isOk())
@@ -102,8 +102,8 @@ public class UserControllerUnitTest extends TestCase {
     @Test
     public void deleteUser() throws Exception {
         when(facade.deleteUser(0)).thenReturn(true);
-        mockMvc.perform(delete("/user").param("userId", "0"))
-//                .andExpect(status().isOk())
+        mockMvc.perform(delete("/users").param("userId", "0"))
+                .andExpect(status().isNoContent())
                 .andExpect(view().name("user"));
     }
 }

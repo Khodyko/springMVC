@@ -27,19 +27,19 @@ public interface TicketDao {
      * Get all booked tickets for specified user. Tickets should be sorted by event date in descending order
      *
      * @param userIdSet Set of user Id.
-     * @param pageSize Pagination param. Number of tickets to return on a page.
-     * @param pageNum  Pagination param. Number of the page to return. Starts from 1.
+     * @param pageSize  Pagination param. Number of tickets to return on a page.
+     * @param pageNum   Pagination param. Number of the page to return. Starts from 1.
      * @return List of Ticket objects.
      * @throws DaoException
      */
-    public List<Ticket> getBookedTicketsByUser(Set<Long> userIdSet , int pageSize, int pageNum) throws DaoException;
+    public List<Ticket> getBookedTicketsByUser(Set<Long> userIdSet, int pageSize, int pageNum) throws DaoException;
 
     /**
      * Get all booked tickets for specified event. Tickets should be sorted in by user email in ascending order.
      *
      * @param eventIdSet Set of event Id.
-     * @param pageSize Pagination param. Number of tickets to return on a page.
-     * @param pageNum  Pagination param. Number of the page to return. Starts from 1.
+     * @param pageSize   Pagination param. Number of tickets to return on a page.
+     * @param pageNum    Pagination param. Number of the page to return. Starts from 1.
      * @return List of Ticket objects.
      * @throws DaoException
      */

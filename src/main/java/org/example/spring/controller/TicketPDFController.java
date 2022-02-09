@@ -2,7 +2,6 @@ package org.example.spring.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.spring.converter.JsonReader;
 import org.example.spring.converter.TicketPDFExporter;
 import org.example.spring.exception.ApplicationException;
 import org.example.spring.exception.FacadeException;
@@ -33,44 +32,45 @@ import static org.apache.logging.log4j.Level.WARN;
  * @authot: Igor Khodyko
  */
 @Controller
-@RequestMapping("/ticket/pdf")
+@RequestMapping("/tickets/pdf")
 public class TicketPDFController {
     private FacadeImpl facade;
     private TicketPDFExporter exporter;
-    private final static Logger logger =  LogManager.getLogger(TicketPDFController.class.getName());
+    private final static Logger logger = LogManager.getLogger(TicketPDFController.class.getName());
 
-    public TicketPDFController() {logger.log(DEBUG,  "created");
+    public TicketPDFController() {
+        logger.log(DEBUG, "created");
     }
 
     public TicketPDFController(FacadeImpl facade, TicketPDFExporter exporter) {
         this.facade = facade;
         this.exporter = exporter;
-        logger.log(DEBUG,  "created");
+        logger.log(DEBUG, "created");
     }
 
     /**
      * This method returns ticket by id from
      * BookingFacade in pdf format uses TicketPDFExporter
+     *
      * @param name
      * @param email
      * @param pageSize
      * @param pageNum
      * @param response
      * @return pdf file
-     * @throws ApplicationException
-     * positive responseStatus HttpStatus.Ok
-     * in case of ApplicationException redirect to error page
+     * @throws ApplicationException positive responseStatus HttpStatus.Ok
+     *                              in case of ApplicationException redirect to error page
      * @see org.example.spring.facade.BookingFacade
      * @see TicketPDFExporter
      */
     @GetMapping(params = {"name", "email", "page-size", "page-num"})
     @ResponseStatus(code = HttpStatus.OK)
     public void getBookedTickets(
-                                @RequestParam(value = "name") String name,
-                                @RequestParam(value = "email") String email,
-                                @RequestParam(value = "page-size") int pageSize,
-                                @RequestParam(value = "page-num") int pageNum,
-                                HttpServletResponse response) throws ApplicationException  {
+            @RequestParam(value = "name") String name,
+            @RequestParam(value = "email") String email,
+            @RequestParam(value = "page-size") int pageSize,
+            @RequestParam(value = "page-num") int pageNum,
+            HttpServletResponse response) throws ApplicationException {
         logger.log(DEBUG, "started.");
         response.setContentType("application/pdf");
         User user = new UserEntity(name, email);
@@ -85,7 +85,7 @@ public class TicketPDFController {
             exporter.export(response, ticketList);
         } catch (FacadeException | IOException e) {
             logger.log(WARN, e.getMessage());
-            throw new ApplicationException(e.getMessage(),e);
+            throw new ApplicationException(e.getMessage(), e);
         }
     }
 }

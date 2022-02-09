@@ -44,6 +44,4 @@ public class TicketBatchWriter implements ItemWriter<TicketEntity> {
         ticketDaoImpl.replaceTickets((List<TicketEntity>) list);
         output.addAll(list);
     }
-
-
 }
